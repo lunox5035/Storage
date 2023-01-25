@@ -1,0 +1,55 @@
+환경
+Java 11
+IntelliJ 또는 Eclipse
+
+프로젝트 생성 :
+start.spring.io 사용
+	Gradle - Groovy
+	2.XX
+	11
+	Dependencies:
+		Spring Web 
+		Thymeleaf 
+		
+import
+
+라이브러리:
+
+view : 
+th : Thymeleaf 엔진
+
+
+빌드하기: 서버 끄기!&cmd 실행
+	./gradlew.bat build : 빌드
+	cd .\build\libs\ : 빌드파일 위치
+	java -jar Gradle-Spring-0.0.1-SNAPSHOT.jar : 실행
+
+
+정적 컨텐츠:  파일을 다이렉트로 웹브라우져에서 실행
+
+MVC및 템플릿엔진 : 동적 변환
+	모델, 뷰, 컨트롤러
+
+API: html 사용하지 않음
+	@ResponseBody : http 바디를 직접적겠다
+		∴viewResolver 대신에 HttpMessageConverter 가 동작
+	반환 : 제이슨
+
+ 비지니스 요구사항
+	필요 데이터
+	시나리오작성
+
+	개층구조 설정 (MVC)
+	의존관계
+
+ 자바코드로 직접 빈 설정
+	DI에는 생성자 주입 방식 사용
+	controller은 @Controller@Autowired써야됨
+
+	장점 : 한곳에서 변경하능
+
+회원 웹 기능 - 회원가입
+	조회할떄 Get
+	보낼때 post
+
+회원 웹 기능 - 조회

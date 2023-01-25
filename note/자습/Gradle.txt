@@ -1,0 +1,39 @@
+Gradle 
+
+이클립스에 Gradle을 설치했다는 가정하에 진행
+
+1. Gradle 프로젝트 생성 :  File > New > Project or Other> Gradle Project
+
+2. MySQL연동 : build.gradle에서 dependencies 추가
+	2-1. mysql jdbc drive maven >  MySQL Connenctor 구글링
+	2-2. Gradle 탭 복사
+	2-3. refresh 필수
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+3.테이블 생성
+
+
+	JPA방식 아님
+
+4. 패키지 Dao생성
+
+	4-1. 
+Class.forName(className: "[DB드라이버주소] ")//"com.mysql.cj.jdbc.Driver"
+connenction conn =  DriverMamager.getConnection(url : "[주소]", user: "[user]", password: "[password]"); 
+PreparedStatement ps = conn.preparedStatement(sql: "[SQL문]");
+ps.setString(paramrterindex: [숫자], x:"[값 ]");
+int status = ps.executeUpdate();
+ps.close();
+conn.close();
+------------------------------------------------------------------------------------------------------------------------------------------
+4.
+	4-1.
+	4-2.
+	4-3.
+	4-4.
+
+
+
+

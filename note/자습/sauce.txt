@@ -1,0 +1,10 @@
+package 
+
+public class JdbcTemplateMemberRepository implements MemberPepository{
+
+	@Autowired
+	pribate final JdbcTemplate jdbcTemplate(DataSource dataSource){
+		jdbcTemplate = new JdbcTemplate(dataSource);
+
+	}
+}
