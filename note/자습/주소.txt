@@ -2,4 +2,5 @@ https://dev-coco.tistory.com/85	: [Spring Boot] MySQL & JPA 연동 및 테스트
 https://wecandev.tistory.com/71 	: [Spring Boot] MariaDB + JPA 연동하기
 https://mollangpiu.tistory.com/348 	: jpa mariadb 연동 gradle
 
+https://ko.reactjs.org/		: 리엑트 공식사이트 (설명있음)
 
