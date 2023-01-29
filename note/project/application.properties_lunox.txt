@@ -2,6 +2,7 @@ Spring Web
 Thymeleaf
 Spring Boot DevTools 
 Spring Data JPA 
+Lombok 
 MariaDB Driver
 
 만약 빌드할때 안만들었다면

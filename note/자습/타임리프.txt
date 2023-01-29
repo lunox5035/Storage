@@ -1,0 +1,16 @@
+타임리프
+
+jsp처럼 서버에서 받아오는 데이터를 ${ }을 이용해서 표기
+
+컨트롤러 부분
+	모듈(model)사용
+	model.addAttribute("","");
+
+뷰 부분
+	th:text=""	: 문자열 생성	th:text=" ${data} "
+	th:each	: 반복문		th:each="article : ${articleList}"
+	th:if	: 조건문		th:if=${data != null}
+	th:href	: 하이퍼링크	th:href=" @{/article/list(id= ${data} )} "
+
+
+
