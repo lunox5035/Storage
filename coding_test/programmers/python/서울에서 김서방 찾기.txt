@@ -1,0 +1,6 @@
+def solution(seoul):
+    answer = ''
+    i= seoul.index('Kim') 
+    answer="김서방은 "+str(i)+"에 있다"
+
+    return answer

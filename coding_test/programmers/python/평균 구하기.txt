@@ -1,0 +1,5 @@
+def solution(arr):
+    a = 0
+    for i in range(0,len(arr)):
+        a+=arr[i]
+    return a/len(arr)

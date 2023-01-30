@@ -1,0 +1,8 @@
+def solution(x):
+    answer = True
+    n=str(x)
+    n=list(map(int,n))
+    
+    a=(x/sum(n))
+    answer = int(a)==a
+    return answer
