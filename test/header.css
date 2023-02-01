@@ -1,0 +1,55 @@
+div{
+    position: relative;
+    border: 2px solid #000;
+    height: 265px; width: 1800px;
+    line-height: 100px;
+}    
+
+.header{
+    height: 320;
+}
+
+.ad{
+    text-align :center;
+    height: 50px; 
+    line-height: 5px;
+}
+
+ul{
+    border: 2px solid #000;
+    width: 500px; height: 100px;
+}
+
+li{
+    margin: 15px;
+    display: inline;
+}
+
+.logo{
+    font-size: 50px;
+    float: left;
+    margin: 16 0;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.userMenu{
+    float: left;
+}
+
+.bar{
+    clear:both;
+    float: left;
+}
+
+.seletor{
+    float: left;     
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.menu{        
+    margin: 0 0 0 100px;
+}
