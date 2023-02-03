@@ -1,0 +1,29 @@
+alert : 알림창 출력
+prompt : 입력창 출력
+confirm : true, fales 값을 받아내는 입력창
+
+let : 변수 선언(변경가능)
+const : 변수 선언(변경불가능)
+	
+문자열 표시
+	" ", ' '	: 기본적인 문자열 표현방법
+	` `	: 내부에 변수선언가능
+
+숫자열
+
+블린(Boolean) : 참 거짓 판별
+
+null : 존재하지 않음
+undefind : 값이 할당되지 않음
+
+rtypeof :  타입 판별
+
+
+형변환
+String() : 문자열 화
+Number() : 숫자형 화
+Boolean() : 블린형 화
+	
+
+
+

@@ -47,6 +47,9 @@ cra :  리엑트 자동 생성
 	npx create-react-app 프로젝트 이름
 	npm start
 
+	BootStrap 사용법: index.js에 추가 
+		import 'bootstrap/dist/css/bootstrap.css';
+
 jsx : js + xml/html 코드, xml/html + {js} + xml/html 
     역할 : xml/html 코드를 js 코드로 변환
     장점 : 코드 간결화, 가독성 향상, 주소 직접입력을 통한 접속 차단
