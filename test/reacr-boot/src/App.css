@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.upload_ul li {
+  text-align: center;
+  list-style: none;
+}
+
+.cen{
+  text-align: center;
+}
