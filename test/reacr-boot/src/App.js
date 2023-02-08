@@ -22,6 +22,7 @@ function App() {
       </Routes>
   */}
 
+<<<<<<< HEAD
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='/fToB' element={<Upload />} /> 
@@ -37,6 +38,14 @@ function App() {
       </Routes>
   */}
   
+=======
+  <Routes>
+    <Route path='/' element={<main />} />
+{/*    <Route path='/' element={< />} />  */}
+    <Route path='/*' element={<EmptyPAge />} />
+  </Routes>
+
+>>>>>>> d9b61bce849473ef6d3d72a1f73e3e2a6ba2a9f7
     </>
   );
 }
