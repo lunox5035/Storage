@@ -5,6 +5,7 @@ function Home() {
     <div>
       <h1>Home</h1>
       <p>메인화면 출력확인</p>
+      
     </div>
   );
 }
