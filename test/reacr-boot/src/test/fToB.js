@@ -8,8 +8,9 @@ const fToB = () => {
   return (
     <>
       {/* 출력페이지 */}
-      <Stack gap={4} className='cen'>
+      <Stack gap={3} className='cen'>
         <p >출력페이지임</p>
+        <button><a href='/'>home</a></button>
         <table>
           <tbody>
             <tr>
