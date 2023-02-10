@@ -1,28 +1,53 @@
 {
-    "cocktail": [
-        {   
-            "no" : 1,
-            "type" : "alcohol",
-            "name" : "네그로니",
-            "eng_name" : "Negroni",
-            "cocktail_contents" : "이탈리아의 네그로니 백작에서 유래한 진 베이스의 칵테일로서 한번도 빠짐없이 공식 레시피에 올랐습니다.",
-            "recipe_contents" : "1.올드 패션드 그라스에 위의 재료를 넣는다.\n2.오렌지 슬라이스로 장식한다."
-        },
-        {   
-            "no" : 2,
-            "type" : "nonalcohol",
-            "name" : "버진 피나 콜라다",
-            "eng_name" : "Virgin Pina Colada",
-            "cocktail_contents" : "피나 콜라다의 무알콜 버전입니다.",
-            "recipe_contents" : "1.믹서기에 으깬 얼음을 넣는다.\n2.코코넛밀크(또는 코코넛크림이나 코코넛시럽)과 파인애플주스를 추가한다.\n3.부드러워질 때까지 갈아서 허리케인 잔에 붓는다.\n4.휘핑크림으로 플로팅하고 파일애플과 체리로 장식한다."
-        },
-        {   
-            "no" : 3,
-            "type" : "alcohol",
-            "name" : "다이키리",
-            "eng_name" : "Daiquiri",
-            "cocktail_contents" : "철광산 노동자들에게 배급되는 럼에 다양한 재료를 혼합해서 만든 음료에서 유래됐습니다.",
-            "recipe_contents" : "1.얼음을 갈아 마티니 글라스에 따른다.\n2.체리나 라임으로 장식한다"
-        }
-    ]
+  "cocktail": [
+    {
+      "no": 1,
+      "type": "alcohol",
+      "name": "네그로니",
+      "eng_name": "Negroni",
+      "cocktail_contents": "이탈리아의 네그로니 백작에서 유래한 진 베이스의 칵테일로서 한번도 빠짐없이 공식 레시피에 올랐습니다.",
+      "recipe_contents": "1.올드 패션드 그라스에 위의 재료를 넣는다.\n2.오렌지 슬라이스로 장식한다."
+    },
+    {
+      "no": 2,
+      "type": "nonalcohol",
+      "name": "버진 피나 콜라다",
+      "eng_name": "Virgin Pina Colada",
+      "cocktail_contents": "피나 콜라다의 무알콜 버전입니다.",
+      "recipe_contents": "1.믹서기에 으깬 얼음을 넣는다.\n2.코코넛밀크(또는 코코넛크림이나 코코넛시럽)과 파인애플주스를 추가한다.\n3.부드러워질 때까지 갈아서 허리케인 잔에 붓는다.\n4.휘핑크림으로 플로팅하고 파일애플과 체리로 장식한다."
+    },
+    {
+      "no": 3,
+      "type": "alcohol",
+      "name": "다이키리",
+      "eng_name": "Daiquiri",
+      "cocktail_contents": "철광산 노동자들에게 배급되는 럼에 다양한 재료를 혼합해서 만든 음료에서 유래됐습니다.",
+      "recipe_contents": "1.얼음을 갈아 마티니 글라스에 따른다.\n2.체리나 라임으로 장식한다"
+    },
+    {
+      "no": 4,
+      "type": "nonalcohol",
+      "name": "로이 로저스",
+      "eng_name": "Roy Rogers",
+      "cocktail_contents": "미국의 배우이자 가수인 로이 로저스의 이름을 딴 상쾌한 무알콜 칵테일입니다.",
+      "recipe_contents": "1.얼음과 함께 위 재료들을 넣고 잘 저어준다.\n2.체리로 장식한다."
+    },
+    {
+      "no": 5,
+      "type": "alcohol",
+      "name": "사이드카",
+      "eng_name": "Sidecar",
+      "cocktail_contents": "진 베이스의 칵테일입니다.",
+      "recipe_contents": "1.위의 재료들을 얼음과 함께 10초정도 쉐이킹한다.\n2.얼음을 걸러내고 차갑게 식힌 칵테일 글라스에 따라준다."
+    },
+    {
+      "id": 6,
+      "no": 6,
+      "type": "nonalcohol",
+      "name": "1",
+      "eng_name": "2",
+      "cocktail_contents": "3",
+      "recipe_contents": "4"
+    }
+  ]
 }

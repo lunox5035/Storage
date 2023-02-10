@@ -1,0 +1,31 @@
+리액트 라우터 v6
+	install react-router-dom@6
+	주소의 프로잭트명 확인: 설치 장소 확인
+
+index.js :
+	<App />
+
+=>
+	
+import { BrowserRouter } from "";
+	<BrowserRouter>
+		<App />
+	</BrowserRouter>
+
+Routes	: 전 스위치 태그,  
+Route	: 사이트의 패이지, 속성 : path="" element={<></>}
+Link	: 페이지 이동
+
+
+리엑트 부트 기본제공되는 NavBar는 <a>를 사용한다.
+<Link to=''>로 변경 가능한가?
+
+<Routes>
+        <Route index element={<Home />} />
+        <Route path='/About' element={<About />} />
+        <Route element={<EmptyPAge />} />
+      </Routes>
+   
+
+
+

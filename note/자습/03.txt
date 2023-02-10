@@ -1,0 +1,85 @@
+<section class="section02 card_wrap m">
+			<div class="page_section">
+				<ul class="pane_wrap">
+					<li class="pane">
+						<div class="scroll_card inner align_center">
+							<div class="change_txt">
+
+
+<section class="section02 pc">
+			<div class="inner">
+				<ul>
+					<li class="pane">
+						<div class="scroll_card">
+
+<section class="section04 card_wrap ">
+			<div class="page_section">
+				<ul class="pane_wrap">
+					<li class="pane">
+						<div class="scroll_card inner align_center">
+
+function scrollEvent() {
+
+	var cardWraps = document.querySelectorAll('.card_wrap');
+
+	cardWraps.forEach(function(element) {
+
+		// Horizontal Scroll.
+		var pageItem = element.querySelector('.pane_wrap');
+		var pages = element.querySelectorAll('.pane_wrap .pane');
+		var pageTop = element.querySelector('.page_section').offsetTop;
+		var horizontalY = 0;
+		var ttop = element.querySelector('.page_section').getBoundingClientRect().top;
+		var hheight = element.querySelector('.page_section').getBoundingClientRect().height;
+		var HeaderHeight = window.innerHeight - document.querySelector('header .pc-menu').offsetHeight;
+
+		var totalWidth = innerWidth > innerHeight ? window.innerWidth * pages.length : window.innerHeight *
+			pages.length; // 섹션의 높이가 됨
+
+		paneHeight = 0;
+		pages.forEach(function(element) {
+			paneHeight += element.offsetHeight;
+		});
+
+		// 가로 스크롤
+		if (!horizontalY) {
+			horizontalY = ttop - document.querySelector('.b2b header').offsetHeight;
+
+			//console.log(ttop);
+			//console.log('horizontalY: ', horizontalY);
+		}
+		pageItem.scrollLeft = -horizontalY;
+
+		// 가로스크롤 바
+		var ratio = -horizontalY / (hheight - HeaderHeight);
+		var barRange = parseInt(ratio * 100);
+		if (barRange >= 0 && barRange <= 100) {
+			element.querySelector('.range span').style.width = barRange + 'vw';
+		}
+
+		element.querySelector('.page_section').style.height = totalWidth + 'px';
+
+		if (pageYOffset > pageTop) {
+			pageItem.classList.add('fixed');
+			pageItem.style.paddingTop = '0';
+			element.querySelector('.b2b .range_wrap').classList.add('fixed');
+		} else {
+			pageItem.classList.remove('fixed');
+			pageItem.style.paddingTop = '0';
+			element.querySelector('.b2b .range_wrap').classList.remove('fixed');
+		}
+
+		element.querySelectorAll('.pane_wrap .pane').forEach((item) => {
+			if (pageYOffset > pageTop + totalWidth - item.offsetHeight) {
+				pageItem.classList.remove('fixed');
+				pageItem.style.paddingTop = (totalWidth - item.offsetHeight) + 'px';
+				element.querySelector('.b2b .range_wrap').classList.remove('fixed');
+
+				// 스크롤이 밑에서 부터 올라올 때 게이지 100프로 채워놓음
+				element.querySelector('.range span').style.width = 100 + 'vw';
+			}
+		})
+
+
+	})
+}

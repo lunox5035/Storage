@@ -6,7 +6,8 @@ import NabBarElements from './compnents/NabBarElements'
 import EmptyPAge from './screens/EmptyPAge';
 
 import Main from './test/main';
-import Upload from './test/fToB';
+import Upload from './test/CreateLable';
+import List from './test/fToB';
 import DayList from './test/DayList';
 import Day from './test/day';
 import Header from './test/header'
@@ -22,10 +23,10 @@ function App() {
       </Routes>
   */}
 
-<<<<<<< HEAD
       <Routes>
         <Route path='/' element={<Main />} />
-        <Route path='/fToB' element={<Upload />} /> 
+        <Route path='/CreateLable' element={<Upload />} /> 
+        <Route path='/FToB' element={<List />} /> 
         <Route path='/*' element={<EmptyPAge />} />
       </Routes>
 
@@ -36,16 +37,7 @@ function App() {
         <Route path='/day' element={<Day />} /> 
         <Route path='/*' element={<EmptyPAge />} />
       </Routes>
-  */}
-  
-=======
-  <Routes>
-    <Route path='/' element={<main />} />
-{/*    <Route path='/' element={< />} />  */}
-    <Route path='/*' element={<EmptyPAge />} />
-  </Routes>
-
->>>>>>> d9b61bce849473ef6d3d72a1f73e3e2a6ba2a9f7
+*/}
     </>
   );
 }

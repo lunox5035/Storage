@@ -5,8 +5,11 @@ import React from 'react'
 function day() {
     const day=1;
     const wordList=dammy.words.filter(word=>(
-        word.day ===1 
+        word.day ===1   
     ))
+
+
+
     console.log(wordList)
   return (
     <table>
