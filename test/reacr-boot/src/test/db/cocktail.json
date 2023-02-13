@@ -6,7 +6,7 @@
       "name": "네그로니",
       "eng_name": "Negroni",
       "cocktail_contents": "이탈리아의 네그로니 백작에서 유래한 진 베이스의 칵테일로서 한번도 빠짐없이 공식 레시피에 올랐습니다.",
-      "recipe_contents": "1.올드 패션드 그라스에 위의 재료를 넣는다.\n2.오렌지 슬라이스로 장식한다."
+      "recipe_contents": "1.올드 패션드 그라스에 위의 재료를 넣는다\n2.오렌지 슬라이스로 장식한다."
     },
     {
       "no": 2,
@@ -48,6 +48,15 @@
       "eng_name": "2",
       "cocktail_contents": "3",
       "recipe_contents": "4"
+    },
+    {
+      "id": 7,
+      "no": 7,
+      "type": "nonalcohol",
+      "name": "테스트",
+      "eng_name": "test",
+      "cocktail_contents": "1234",
+      "recipe_contents": "aasq"
     }
   ]
 }

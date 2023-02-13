@@ -5,65 +5,36 @@ import { Outlet } from 'react-router-dom';
 function NabBarElements() {
   return (
     <>
-      <nav>
-        <img
-          src=""
-          width="60"
-          height="60"
-          className="d-inline-block align-top"
-          alt='Logo'
-        />
-      </nav>
-      <Nav className="justify-content-end " activeKey="/home">
-        <Nav.Item>
-          <Nav.Link href="/home">Active</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="link-1">Link</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="link-2">Link</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="disabled" disabled>
-            Disabled
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
-     
-      <br />
       <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand href="/">
+          <Navbar.Brand className="me-auto" href="/">
             <img
               alt=""
               src="/logo.svg"
               width="150"
               height="80"
-              className="d-inline-block align-top"
+              className="d-inline-block align-top "
             />
             React Bootstrap
           </Navbar.Brand>
-        </Container>
-
-        <Nav defaultActiveKey="/" as="ul">
-          <Nav.Item as="li">
-            <Nav.Link href="/About">About</Nav.Link>
-          </Nav.Item>
-          <Nav.Item as="li">
-            <Nav.Link eventKey="link-1">Link</Nav.Link>
-          </Nav.Item>
-          <Nav.Item as="li">
-            <Nav.Link eventKey="link-2">Link</Nav.Link>
-          </Nav.Item>
-        </Nav>
+          
+          <Nav defaultActiveKey="/" as="ul" >
+            <Nav.Item as="li">
+              <Nav.Link href="/About">MyPage</Nav.Link>
+            </Nav.Item>
+            <Nav.Item as="li">
+              <Nav.Link eventKey="link-1">sign in</Nav.Link>
+            </Nav.Item>
+            <Nav.Item as="li">
+              <Nav.Link eventKey="link-2">sign up</Nav.Link>
+            </Nav.Item>
+          </Nav>
       </Navbar>
-
 
       <Navbar bg="dark" variant="dark">
         <Nav className="me-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#link">Link</Nav.Link>
+          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/CreateLable">입력</Nav.Link>
+          <Nav.Link href="/board">출력</Nav.Link>
           <NavDropdown title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">

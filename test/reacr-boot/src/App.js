@@ -7,10 +7,12 @@ import EmptyPAge from './screens/EmptyPAge';
 
 import Main from './test/main';
 import Upload from './test/CreateLable';
-import List from './test/fToB';
+import List from './test/board';
 import DayList from './test/DayList';
 import Day from './test/day';
 import Header from './test/header'
+import Test from './test/db/boardIn';
+
 function App() {
   return (
     <>
@@ -22,12 +24,13 @@ function App() {
         <Route path='/*' element={<EmptyPAge />} />
       </Routes>
   */}
-
+      <NabBarElements/>
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='/CreateLable' element={<Upload />} /> 
-        <Route path='/FToB' element={<List />} /> 
+        <Route path='/board' element={<List />} /> 
         <Route path='/*' element={<EmptyPAge />} />
+        <Route path='/boardIn' element={<Test />} />
       </Routes>
 
   {/*
