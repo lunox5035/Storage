@@ -1,0 +1,42 @@
+  <h1 style={{ margin: '0 100px ', border: 'solid' }} >댓글</h1>
+
+            <div style={{ height: '800px' }}>
+                {/* 반복문 : 페이징 10개씩 */}
+
+                <div className='d-flex m-5 d-flex flex-column' style={{ height: '80px' }}>
+                    <Row>
+                        <Col >
+                            <Card className='h-100 w-100'>
+                                <Card.Text className='mx-5'>
+                                    1234
+                                </Card.Text>
+                                <Card.Text className="mx-5">
+                                    123
+                                </Card.Text>
+                                <Card.Footer>
+                                    <Row className='commentFooter'>
+                                        <Col className='text-end'> 등록일 :</Col>
+                                        <Col > 2023/02/14</Col>
+                                        <Col className='text-end'> 좋아요 :</Col>
+                                        <Col > 5</Col>
+                                        <Col className='text-end'> 123 :</Col>
+                                        <Col > 456</Col>
+                                        <Col xs={4}></Col>
+                                    </Row>
+                                </Card.Footer>
+                            </Card>
+                        </Col>
+                        <Col xs='auto' className='d-flex flex-row-reverse'>
+                            <div className="d-grid gap-2">
+                                <Button variant="primary" size="lg">
+                                    Block level button
+                                </Button>
+                                <Button variant="secondary" size="lg">
+                                    Block level button
+                                </Button>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+
+            </div>
