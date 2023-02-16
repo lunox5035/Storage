@@ -1,0 +1,84 @@
+a:link {
+  text-decoration: none;
+  color: black;
+}
+
+a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+img {
+  overflow: clip;
+  object-fit: cover;
+}
+
+/* ---------------------------------------- */
+
+.header-menu {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.header-animationbar {
+  width: 0px;
+  height: 3px;
+  margin-top: 5px;
+  border-radius: 100px;
+  background-color: rgb(242, 92, 92);
+  transition: all 0.5s;
+}
+
+.header-menu:hover ~ .header-animationbar {
+  width: 100%;
+}
+
+.header-search {
+  border-radius: 5px;
+  padding: 10px;
+  width: 350px;
+  height: 20px;
+  float: right;
+  position: relative;
+  top: -40px;
+}
+
+/* ---------------------------------------- */
+
+.banner {
+  width: 100%;
+  height: 530px;
+  background-color: aliceblue;
+  clear: both;
+}
+
+/* ---------------------------------------- */
+
+.cocktail-btn {
+  margin: 20px;
+  padding: 5px 20px;
+  font-size: 20px;
+  background-color: aliceblue;
+  color: gray;
+  border: 0px;
+  box-shadow: 2px 2px 5;
+  cursor: pointer;
+}
+
+.cocktail-box {
+  width: 280px;
+  height: 220px;
+  cursor: pointer;
+}
+
+.cocktail-contents {
+  width: 280px;
+  height: 20px;
+  background-color: white;
+  margin: 0px;
+  overflow: hidden;
+  white-space: nowrap; /* 글자를 한줄로 모아준다 */
+  text-overflow: ellipsis;
+}

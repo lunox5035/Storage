@@ -1,6 +1,7 @@
 import React from 'react'
-import { Button, Container, Form, Nav, Navbar, NavDropdown, Stack } from 'react-bootstrap';
+import { Button,  Form, Nav, Navbar, NavDropdown, Stack } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
+import icon from './프로필기본이미지.jpg'
 
 function NabBarElements() {
   return (
@@ -8,8 +9,8 @@ function NabBarElements() {
       <Navbar bg="dark" variant="dark">
           <Navbar.Brand className="me-auto" href="/">
             <img
-              alt=""
-              src="/logo.svg"
+              alt="icon"
+              src={icon}
               width="150"
               height="80"
               className="d-inline-block align-top "
@@ -36,7 +37,7 @@ function NabBarElements() {
           <Nav.Link href="/CreateLable">입력</Nav.Link>
           <Nav.Link href="/board">출력</Nav.Link>
           <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+            <NavDropdown.Item href="/boardIn">임시칵테일페이지</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">
               Another action
             </NavDropdown.Item>

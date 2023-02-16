@@ -1,0 +1,20 @@
+{
+    "ingredient": [
+        {
+            "id": 1,
+            "name": "땅콩버터",
+            "eng_name": "Butter",
+            "type": "other",
+            "degree": "0",
+            "url": "https://cocktail-bucket.s3.ap-northeast-2.amazonaws.com/TB_ITEM_MASTER/053.%EB%B2%84%ED%84%B090.png"
+        },
+        {
+            "id": 2,
+            "name": "마라스키노 체리",
+            "eng_name": "Maraschino cherry",
+            "type": "other",
+            "degree": "0",
+            "url": "https://cocktail-bucket.s3.ap-northeast-2.amazonaws.com/TB_ITEM_MASTER/022.%EB%A7%88%EB%9D%BC%EC%8A%A4%ED%82%A4%EB%85%B8%EC%B2%B4%EB%A6%AC80.png"
+        }
+    ]
+}
