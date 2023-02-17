@@ -16,5 +16,19 @@
             "degree": "0",
             "url": "https://cocktail-bucket.s3.ap-northeast-2.amazonaws.com/TB_ITEM_MASTER/022.%EB%A7%88%EB%9D%BC%EC%8A%A4%ED%82%A4%EB%85%B8%EC%B2%B4%EB%A6%AC80.png"
         }
+    ],
+    "recipe":[
+        {
+            "id": 1,
+            "cocktail_no":1,
+            "ingredient_no":1,
+            "amount":30
+        },
+        {
+            "id": 2,
+            "cocktail_no":1,
+            "ingredient_no":2,
+            "amount":50
+        }
     ]
 }

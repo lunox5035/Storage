@@ -12,91 +12,59 @@ function boardIn() {
     const ingredient = useFetch("http://localhost:4030/ingredient")
 
 
-
     return (
 
         <>
-            <div className='border d-flex m-5' style={{ height: '700px' }} >
-                <div style={{ margin: '0 0 0 10%' }} className='border float-legt w-100 h-100'>
+            <div className=' d-flex m-5' style={{ height: '700px' }} >
+                <div style={{ margin: '0 0 0 10%', boxShadow: "2px 2px 2px 2px gray " }} className='border float-legt w-100 h-100'>
                     <div className='h-50'>
                         <Carousel>
+
                             {cocktail.map(test => {
-                               
-                                    return (
-                                        <Carousel.Item interval={1000}>
-                                            <img
-                                                className="d-block w-75"
-                                                style={{ margin: 'auto' }}
-                                                src={test.images[0].url}
-                                                alt="First slide"
-                                            />
+                                return (
+                                    test.images.map(app => {
+                                        return (
+                                            <Carousel.Item interval={1000}>
+                                                <img
+                                                    className="d-block w-75"
+                                                    style={{ margin: 'auto' }}
+                                                    src={app.url}
+                                                    alt="First slide"
+                                                />
 
-                                        </Carousel.Item>
-                                    )
-                                
+                                            </Carousel.Item>
+                                        )
+                                    })
+                                )
+
                             })}
-                            {cocktail.map(test => {
-                               
-                                    return (
-                                        <Carousel.Item interval={1000}>
-                                            <img
-                                                className="d-block w-75"
-                                                style={{ margin: 'auto' }}
-                                                src={test.images[1].url}
-                                                alt="First slide"
-                                            />
-
-                                        </Carousel.Item>
-                                    )
-                                
-                            })}
-                            {cocktail.map(test => {
-                               
-                                    return (
-                                        <Carousel.Item interval={1000}>
-                                            <img
-                                                className="d-block w-75"
-                                                style={{ margin: 'auto' }}
-                                                src={test.images[2].url}
-                                                alt="First slide"
-                                            />
-
-                                        </Carousel.Item>
-                                    )
-                                
-                            })}
-
-
-
                         </Carousel>
                     </div>
                     <div className='w-100 h-25 ' style={{ margin: "200px 0 0 0" }}>
                         <Row className="justify-content-md-center m-1">
                             {/* 반복문 */}
-                            {cocktail.map(test => (
-                                <Col xs={1} className=' border m-4' style={{ width: "100px", height: "100px" }} >
-                                    <Image className='h-100' src={test.images[0].url} fluid />
-                                </Col>
-                            ))}
-                            {cocktail.map(test => (
-                                <Col xs={1} className=' border m-4' style={{ width: "100px", height: "100px" }} >
-                                    <Image className='h-100' src={test.images[1].url} fluid />
-                                </Col>
-                            ))}
-                            {cocktail.map(test => (
-                                <Col xs={1} className=' border m-4' style={{ width: "100px", height: "100px" }} >
-                                    <Image className='h-100' src={test.images[2].url} fluid />
-                                </Col>
-                            ))}
+                            {cocktail.map(test => {
+                                return (
+                                    test.images.map(app => {
+                                        return (
+                                            <Col xs={1} className=' border m-4' style={{ width: "100px", height: "100px" }} >
+                                                <Image className='h-100' src={app.url} fluid />
+                                            </Col>
+                                       )
+                                    })
+                                )
+
+                            })}
+                           
                         </Row>
                     </div>
                 </div>
 
-                <div style={{ margin: '0 10% 0 0' }} className='float-right w-100 mb-0' >
-                    <div className='border h-75 m-2 '>
+                <div style={{ margin: '0 10% 0 0' }} className='float-right w-100 mb-0 border' >
+                    <div className=' h-75 mx-2 '>
                         {cocktail.map((test) => {
                             return (
-                                <Card border="danger" className="h-100 ">
+                                <Card border="danger" style={{ boxShadow: "2px 2px 2px 2px gray ", height: "500px" }} lassName="h-100 ">
                                     <Card.Body>
                                         <Card.Title className='my-5'><h3>{test.name} {test.eng_name}</h3></Card.Title>
                                         <Card.Text className='my-5'> <h5>{test.cocktail_contents}</h5></Card.Text>
@@ -131,10 +99,10 @@ function boardIn() {
 
             <h1 style={{ margin: '0 100px ' }} >재료 정보</h1>
 
-            <div  className=' m-5'>
+            <div className=' m-5'>
                 {ingredient.map(test => (
                     <div className='mt-1'>
-                        <Row style={{ height: "100px", margin: '0 10%', boxShadow: "2px 2px 2px 2px gray "}} className="pill bg-light">
+                        <Row style={{ height: "100px", margin: '0 10%', boxShadow: "2px 2px 2px 2px gray " }} className="pill bg-light mb-3">
                             <Col>
                                 <center>
                                     <img
@@ -161,9 +129,9 @@ function boardIn() {
 
             <h1 style={{ margin: '0 100px ' }} >레시피 정보</h1>
 
-            <div  className=' m-5'>
+            <div className=' m-5'>
                 {cocktail.map(test => (
-                    <div className='mt-1 pill bg-light' style={{ margin: "0 10%" , boxShadow: "2px 2px 2px 2px gray "}}>
+                    <div className='mt-1 pill bg-light' style={{ margin: "0 10%", boxShadow: "2px 2px 2px 2px gray " }}>
                         <pre className='text-center fs-1'>
                             {test.recipe_contents}
                         </pre>

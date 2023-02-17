@@ -3,7 +3,7 @@ import { Stack } from 'react-bootstrap'
 import useFetch from './useFetch';
 
 const fToB = () => {
-  const cocktail = useFetch("http://localhost:3002/cocktail")
+  const cocktail = useFetch("http://localhost:3030/cocktail")
 
   return (
     <>

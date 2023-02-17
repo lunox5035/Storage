@@ -2,13 +2,13 @@ import { useRef, useState } from 'react';
 import useFetch from './useFetch';
 
 function CreateLable() {
-    const cocktail = useFetch("http://localhost:3002/cocktail")
+    const cocktail = useFetch("http://localhost:3030/cocktail")
 
     const [RadioButton, setRadioButton] = useState('alcohol');
     function onSubmit(e) {
         e.preventDefault();
 
-        fetch(`http://localhost:3002/cocktail/`, {
+        fetch(`http://localhost:3030/cocktail/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

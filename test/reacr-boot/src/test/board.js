@@ -4,7 +4,7 @@ import useFetch from './useFetch'
 
 function board() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const cocktail = useFetch("http://localhost:3002/cocktail")
+    const cocktail = useFetch("http://localhost:3030/cocktail")
 
     return (
         <div className='m-5'>
