@@ -1,34 +1,75 @@
 {
     "ingredient": [
         {
-            "id": 1,
-            "name": "땅콩버터",
-            "eng_name": "Butter",
-            "type": "other",
-            "degree": "0",
-            "url": "https://cocktail-bucket.s3.ap-northeast-2.amazonaws.com/TB_ITEM_MASTER/053.%EB%B2%84%ED%84%B090.png"
-        },
-        {
-            "id": 2,
-            "name": "마라스키노 체리",
-            "eng_name": "Maraschino cherry",
-            "type": "other",
-            "degree": "0",
-            "url": "https://cocktail-bucket.s3.ap-northeast-2.amazonaws.com/TB_ITEM_MASTER/022.%EB%A7%88%EB%9D%BC%EC%8A%A4%ED%82%A4%EB%85%B8%EC%B2%B4%EB%A6%AC80.png"
-        }
-    ],
-    "recipe":[
-        {
-            "id": 1,
-            "cocktail_no":1,
-            "ingredient_no":1,
-            "amount":30
-        },
-        {
-            "id": 2,
-            "cocktail_no":1,
-            "ingredient_no":2,
-            "amount":50
+            "no": 1,
+            "name": "골드 럼",
+            "engName": "Gold rum",
+            "type": "strong",
+            "degree": 40.0,
+            "contents": null,
+            "image": "https://cocktail-bucket.s3.ap-northeast-2.amazonaws.com/TB_ITEM_MASTER/057.%EA%B3%A8%EB%93%9C%EB%9F%BC.png",
+            "cocktailRecipes": [
+                {
+                    "no": 142,
+                    "amount": 30,
+                    "unit": "ml",
+                    "cocktail": [
+                        {
+                            "no": 40,
+                            "type": "alcohol",
+                            "name": "모스코 뮬",
+                            "engName": "Moscow Mule",
+                            "cocktailContents": "진 베이스의 칵테일입니다.",
+                            "recipeContents": "1.보드카와 진저 비어를올드 패션드 글라스에 부어준 다음 라임주스를 얼음과 함께 넣어주고는 잘 저어준다.\\n2.라임으로 장식한다.",
+                            "cocktailImages": [
+                                {
+                                    "url": "https://cdn.diffords.com/contrib/stock-images/2018/5/20/2018ffe7ab4ebbc48d2f34715c870cce5a10.jpg"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "no": 193,
+                    "amount": 45,
+                    "unit": "ml",
+                    "cocktail": [
+                        {
+                            "no": 54,
+                            "type": "alcohol",
+                            "name": "카이피리냐",
+                            "engName": "Caipirinha",
+                            "cocktailContents": "진 베이스의 칵테일입니다.",
+                            "recipeContents": "1.더블 올드 패션드 글라스 안에 라임조각과 설탕을 넣은다음 으깨준다.\\n2.라임이 적당히 으깨지면 간얼음과 카샤사를 넣고 약하게 저어준다.",
+                            "cocktailImages": [
+                                {
+                                    "url": "https://www.liquor.com/thmb/EdUHsRs8g5jsnTi7_HMDg4xeE-o=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/caipirnha-720x720-primary-40900f56782b4c1d8c79494c9b413f9c.jpg"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "no": 258,
+                    "amount": 45,
+                    "unit": "ml",
+                    "cocktail": [
+                        {
+                            "no": 71,
+                            "type": "alcohol",
+                            "name": "VE.N.TO",
+                            "engName": "VE.N.TO",
+                            "cocktailContents": "진 베이스의 칵테일입니다.",
+                            "recipeContents": "1.위의 재료들을 얼음과 함께 10초정도 쉐이킹한다.\\n2.얼음을 걸러내고 차갑게 식힌 텀블러 글라스에 따라준다.\\n3.레몬이나 청포도로 장식한다.",
+                            "cocktailImages": [
+                                {
+                                    "url": "https://cdn.tasteatlas.com/images/ingredients/884fef50123b4e8f9e06b6364430c7db.jpg"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

@@ -16,11 +16,13 @@ function CreateLable() {
             body: JSON.stringify({
                 id: noDate,
                 no: noDate,
-                type: tyRef.current.value,
-                name: nameRef.current.value,
-                eng_name: enmRef.current.value,
-                cocktail_contents: ccRef.current.value,
-                recipe_contents: rcRef.current.value,
+                category: caRef.current.value,
+                title: tiRef.current.value,
+                contents: ctRef.current.value,
+                hit: hitRef.current.value,
+                reg_date: rdRef.current.value,
+                favorite: faRef.current.value,
+                user_no: unRef.current.value,
             }),
         })
         .then(res => {
@@ -32,11 +34,13 @@ function CreateLable() {
 
     
     const noDate = Math.max.apply(null, cocktail.map(function(v){return v.no}))+1;
-    const tyRef = useRef(null);
-    const nameRef = useRef(null);
-    const enmRef = useRef(null);
-    const ccRef = useRef(null);
-    const rcRef = useRef(null);
+    const caRef = useRef(null);
+    const tiRef = useRef(null);
+    const ctRef = useRef(null);
+    const hitRef = useRef(null);
+    const rdRef = useRef(null, Date());
+    const faRef = useRef(null);
+    const unRef = useRef(null);
 
     return (
         <div>
@@ -44,18 +48,18 @@ function CreateLable() {
             <span>입력페이지임</span>
             <form onSubmit={onSubmit}>
                 <div >
-                    <label>type</label>
+                    <label>category</label>
                     <br />
                     <label>
-                        <input type="radio" name="Type" onChange={(e) => setRadioButton('alcohol')} value="alcohol"
-                            checked={RadioButton === 'alcohol'} ref={tyRef} />
-                        alcohol
+                        <input type="radio" name="category" onChange={(e) => setRadioButton('자유')} value="자유"
+                            checked={RadioButton === '자유'} ref={caRef} />
+                        자유
                     </label>
                     <br />
                     <label>
-                        <input type="radio" name="Type" onChange={(e) => setRadioButton('nonalcohol')} value="nonalcohol"
-                            checked={RadioButton === 'nonalcohol'} ref={tyRef} />
-                        nonalcohol
+                        <input type="radio" name="category" onChange={(e) => setRadioButton('Q&A')} value="Q&A"
+                            checked={RadioButton === 'Q&A'} ref={caRef} />
+                        Q&A
                     </label>
                     <div>변화 확인용: {RadioButton}</div>
                 </div>
@@ -74,22 +78,27 @@ function CreateLable() {
 
                 </div>
                 <div className='input_area'>
-                    <label>name</label>
-                    <input type="text" placeholder="" ref={nameRef} />
+                    <label>title</label>
+                    <input type="text" placeholder="" ref={tiRef} />
                 </div>
                 <div className='input_area'>
                     <label>eng_name</label>
-                    <input type="text" placeholder="" ref={enmRef} />
+                    <input type="text" placeholder="" ref={ctRef} />
                 </div>
                 <div className='input_area'>
                     <label>cocktail_contents</label>
-                    <input type="text" placeholder="" ref={ccRef} />
+                    <input type="text" placeholder="" ref={hitRef} />
                 </div>
                 <div className='input_area'>
                     <label>recipe_contents</label>
-                    <input type="text" placeholder="" ref={rcRef} />
+                    <input type="text" placeholder="" ref={faRef} />
+                </div>
+                <div className='input_area'>
+                    <label>recipe_contents</label>
+                    <input type="text" placeholder="" ref={unRef} />
                 </div>
                 <button>입력</button>
+                <button><a href='/board'> 이전</a></button>
             </form >
         </div>
     );

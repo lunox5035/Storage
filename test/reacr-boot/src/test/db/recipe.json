@@ -1,0 +1,25 @@
+{
+    "recipe": [
+        {
+            "id":1,
+            "ingredient_no": 1,
+            "cocktail_no": 1,
+            "amount": 30,
+            "unit": "ml"
+        },
+        {
+            "id":2,
+            "ingredient_no": 2,
+            "cocktail_no": 1,
+            "amount": 30,
+            "unit": "ml"
+        },
+        {
+            "id":3,
+            "ingredient_no": 1,
+            "cocktail_no": 2,
+            "amount": 1,
+            "unit":"tsp"
+        }
+    ]
+}
