@@ -21,8 +21,8 @@ function ingredientin() {
 
     // const Fdata = useSelect(ingredientNo)
 
-    const Fdata = ingredient.filter(x => x.no == ingredientNo.no)
-
+    // const Fdata = ingredient.filter(x => x.no == ingredientNo.no)
+    const Fdata = []
     return (
 
         <>
@@ -32,14 +32,19 @@ function ingredientin() {
 
                 <div className='mt-1'>
                     <Row style={{ margin: '0 10%' }}>
-                        {/* if(Fdata === []) {
-                            <Link to={'/ingredient'}>
-                                <p>준비중입니다</p>
-                            </Link>
-                        }else{ */}
+                        {/* {
+                            Fdata === [] && <Link to={'/ingredient'}><p>준비중입니다</p></Link>
+                        } */}
+                        {
+                            (()=>{
+                                if( Fdata.length === 0){
+                                    return(<Link to={'/ingredient'}><p>준비중입니다</p></Link>)
+                                }
+                            })
+                        }
+                        
                         {Fdata.map(test => {
                             return (
-                                // <p>{test.cocktailRecipes.no}</p>
                                 test.cocktailRecipes.map(test2 => {
                                     return (
                                         test2.cocktail.map(test3 => {
@@ -49,7 +54,7 @@ function ingredientin() {
                                                         <center>
                                                             <img
                                                                 className="d-block "
-                                                                style={{ width: "90px",height: "90px", borderRadius: "70%", overflow: "hidden" }}
+                                                                style={{ width: "90px", height: "90px", borderRadius: "70%", overflow: "hidden" }}
                                                                 src={test3.cocktailImages[0].url}
                                                                 alt="Third slide" />
                                                         </center>
