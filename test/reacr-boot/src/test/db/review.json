@@ -1,0 +1,22 @@
+{
+    "review": [
+        {
+            "id": 1,
+            "no": 1,
+            "contents": "test_contents1",
+            "reg_date": "2023-02-28",
+            "mod_date": "2023-02-28",
+            "board_no": 1,
+            "user_no": 1
+        },
+        {
+            "id": 2,
+            "no": 2,
+            "contents": "test_contents2",
+            "reg_date": "2023-02-28",
+            "mod_date": "2023-02-28",
+            "board_no": 1,
+            "user_no": 2
+        }
+    ]
+}

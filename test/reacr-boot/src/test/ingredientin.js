@@ -1,49 +1,42 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-undef */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import useFetch from './useFetch'
-import useSelect from './useSelect'
 
 function ingredientin() {
 
     const ingredient = useFetch("http://localhost:4030/ingredient")
-    // const cocktail = Data1.filter(x => x.no === 2) /* no, id 받아오기 */
-
     const ingredientNo = useParams();
-    // const cocktail = Data1.filter(x => x.no == no.no)
 
-    // console.log(cocktail)
-    // console.log(no)
-    // console.log(no.no)
+    const Fdata = ingredient.filter(x => x.no == ingredientNo.no)
+    // const Fdata = []
+    console.log(Fdata.length)
 
-    // const Fdata = useSelect(ingredientNo)
-
-    // const Fdata = ingredient.filter(x => x.no == ingredientNo.no)
-    const Fdata = []
     return (
-
         <>
             <h1 style={{ margin: '0 100px ' }} >해당 재료로 만들 수 있는 칵테일</h1>
 
-            <div className=' m-5'>
+            {/* <div>
+                <Link to={'/ingredient'}>
+                    <p>준비중입니다</p>
+                </Link>
+            </div> */}
 
-                <div className='mt-1'>
-                    <Row style={{ margin: '0 10%' }}>
-                        {/* {
-                            Fdata === [] && <Link to={'/ingredient'}><p>준비중입니다</p></Link>
-                        } */}
-                        {
-                            (()=>{
-                                if( Fdata.length === 0){
-                                    return(<Link to={'/ingredient'}><p>준비중입니다</p></Link>)
-                                }
-                            })
-                        }
-                        
-                        {Fdata.map(test => {
+            <div className='mt-1'>
+                <Row style={{ margin: '0 10%' }}>
+                    {Fdata.map(test => {
+                        if (test.length === 0) {
+                            return (
+                                <div>
+                                    <Link to={'/ingredient'}>
+                                        <p>준비중입니다</p>
+                                    </Link>
+                                </div>
+                            )
+                        } else {
                             return (
                                 test.cocktailRecipes.map(test2 => {
                                     return (
@@ -66,9 +59,9 @@ function ingredientin() {
                                     )
                                 })
                             )
-                        })}
-                    </Row>
-                </div>
+                        }
+                    })}
+                </Row>
             </div>
         </>
     )
