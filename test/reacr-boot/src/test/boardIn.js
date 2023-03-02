@@ -61,6 +61,15 @@ const boardIn = () => {
                         {test.contents}<br />
                         {test.contents}<br />
                     </div>
+                    {/* 좋아요 버튼 */}
+                    <div >
+                        <button
+                            type='button'
+                            style={{ height: '100px', width: '100px', borderRadius: '50px' }}
+                        >
+                            좋아요
+                        </button>
+                    </div>
 
                     {/* 댓글창 */}
                     <div>

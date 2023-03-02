@@ -21,9 +21,9 @@ function board() {
     useEffect(() => { setTopHitData([...Data1]); }, [Data1])
     useEffect(() => { setTopFavoriteData([...Data1]); }, [Data1])
 
-    const handleSelect = (e) => {
-        setBoard(e.target.value);
-    };
+    // const handleSelect = (e) => {
+    //     setBoard(e.target.value);
+    // };
 
     var sortJSON = function (data, key, type) {
         if (type == undefined) {
@@ -46,8 +46,6 @@ function board() {
 
     //  내림차순 이벤트
 
-    // sortJSON(board, "title", "acs")
-    // sortJSON(board, "title", "desc")
     const [sorting, setSorting] = useState("asc");
 
     const onSorted = (e) => {
@@ -63,18 +61,22 @@ function board() {
     };
 
     // 방문자수 증가 함수
-    const hitRef = null
+    const [hitRef, setHitRef] = useState(0);
+    useEffect(() => { setHitRef([...Data1]); }, [Data1])
 
-    const handleLinkClick = (event, url, hitRef) => {
-        event.preventDefault();
-        fetch(url, {
-            method: 'PUT',
-            body: JSON.stringify({
-                hit: { hitRef }
-            })
-        })
-        console.log(hitRef)
-    };
+    // const handleClick = (e) => {
+    //     setHitRef(Number(hitRef.filter(x=>x.no == test.no)) + 1);
+    //     e.preventDefault();
+    //     fetch('http://localhost:5030/board', {
+    //         method: 'PUT',
+    //         body: JSON.stringify({
+    //             hit: { hitRef }
+    //         })
+    //     })
+    //     console.log("0.:"+hitRef)
+    // };
+    console.log(hitRef)
+    console.log("2.:" + Data1.hit)
 
     return (
         <>
@@ -147,16 +149,21 @@ function board() {
                                 <div className='border' >
 
                                     <Link
+                                        // onClick={handleClick(e)}
                                         onClick={(e) => {
-                                            // hitRef = { test.hit } + 1 //hitRef 생성할 것
-                                            const [hitRef, setHitRef] = React.useState(test.hit);
-                                            setHitRef(hitRef + 1);
-                                            handleLinkClick(e, 'http://localhost:5030/board', hitRef)
-
-                                            return false;
+                                            setHitRef(Number(hitRef.filter(x => x.no == test.no)) + 1);
+                                            e.preventDefault();
+                                            fetch('http://localhost:5030/board', {
+                                                method: 'PUT',
+                                                body: JSON.stringify({
+                                                    hit: { hitRef }
+                                                })
+                                            })
+                                            console.log("0.:" + hitRef)
                                         }}
                                         to={`/boardIn/${test.no}`}
                                         style={{ textDecoration: 'none', textDecorationColor: "black" }}
+
                                     >
                                         <Row className='mt-3 xxl'>
 

@@ -1,7 +1,7 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { ClassicEditor } from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
@@ -54,7 +54,7 @@ const boardRe = () => {
                                     checked={RadioButton === '자유'} ref={caRef} key={i} />
                                 자유
                             </label>
-                            <br />
+                            {/* <br /> */}
                             <label>
                                 <input type="radio" name="category" onChange={(e) => setRadioButton('Q&A')} value="Q&A"
                                     checked={RadioButton === 'Q&A'} ref={caRef} key={i} />
@@ -63,23 +63,33 @@ const boardRe = () => {
                             <div key={i}>변화 확인용: {RadioButton}</div>
                         </div>
 
-                        <div>
-                            <br />
+
+                        <div className="App">
+                            
+                                <tr>
+                                    <td>category</td>
+                                    <td>제목</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="sorting" value={board.category} ref={caRef}>
+                                            <option value= "자유" checked={RadioButton === '자유'}>자유</option>
+                                            <option value= "Q&A" checked={RadioButton === 'Q&A'}>Q&A</option>
+                                        </select>
+                                    </td>
+                                    <td >
+                                        <input type="text" key={i} defaultValue={test.title} ref={tiRef}  />
+                                    </td>
+                                </tr>
+
                             <label>제목</label>
                             <br />
-                            <input type="text" key={i} defaultValue={test.title} ref={tiRef} />
+                            <input type="text" key={i} defaultValue={test.title} ref={tiRef} style={{ width: "100%" }} />
                             <br />
                             <label>내용</label>
-                            <br />
-                            <input type="text" key={i} defaultValue={test.contents} ref={coRef} />
-                            <br />
-
-                        </div>
-                        <div>
-
                             <CKEditor
                                 editor={ClassicEditor}
-                                data="<p>Hello from CKEditor 5!</p>"
+                                data={test.contents}
                                 onReady={editor => {
                                     // You can store the "editor" and use when it is needed.
                                     console.log('Editor is ready to use!', editor);
@@ -94,6 +104,7 @@ const boardRe = () => {
                                 onFocus={(event, editor) => {
                                     console.log('Focus.', editor);
                                 }}
+                                ref={coRef}
                             />
                         </div>
                     </>

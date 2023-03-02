@@ -29,6 +29,7 @@ function App() {
         <Route path='/ingredient' element={<Ingredient />} />
         <Route path='/ingredient/:no' element={<IngredientIn />} />
       </Routes>
+      
     </>
   );
 }
