@@ -25,24 +25,6 @@ function board() {
         setBoard(e.target.value);
     };
 
-    /* useEffect(() => {
-        var sortJSON = function(data, key, type) {
-            if (type == undefined) {
-              type = "asc";
-            }
-            return data.sort(function(a, b) {
-              var x = a[key];
-              var y = b[key];
-              if (type == "desc") {
-                return x > y ? -1 : x < y ? 1 : 0;
-              } else if (type == "asc") {
-                return x < y ? -1 : x > y ? 1 : 0;
-              }
-            });
-          };
-    }) */
-    // console.log(arrSort)
-
     var sortJSON = function (data, key, type) {
         if (type == undefined) {
             type = "asc";
@@ -78,6 +60,20 @@ function board() {
         } else if (sortByValue === 'desc') {
             sortJSON(board, "title", "desc")
         }
+    };
+
+    // 방문자수 증가 함수
+    const hitRef = null
+
+    const handleLinkClick = (event, url, hitRef) => {
+        event.preventDefault();
+        fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify({
+                hit: { hitRef }
+            })
+        })
+        console.log(hitRef)
     };
 
     return (
@@ -149,7 +145,19 @@ function board() {
                                 <div className="d-flex align-items-center" style={{ float: "left", height: "67px" }}>                            <p>{test.no}</p>
                                 </div>
                                 <div className='border' >
-                                    <Link to={`/boardIn/${test.no}`} style={{ textDecoration: 'none', textDecorationColor: "black" }}>
+
+                                    <Link
+                                        onClick={(e) => {
+                                            // hitRef = { test.hit } + 1 //hitRef 생성할 것
+                                            const [hitRef, setHitRef] = React.useState(test.hit);
+                                            setHitRef(hitRef + 1);
+                                            handleLinkClick(e, 'http://localhost:5030/board', hitRef)
+
+                                            return false;
+                                        }}
+                                        to={`/boardIn/${test.no}`}
+                                        style={{ textDecoration: 'none', textDecorationColor: "black" }}
+                                    >
                                         <Row className='mt-3 xxl'>
 
                                             <Col xs={1}> {test.category}</Col>
@@ -159,8 +167,8 @@ function board() {
                                         <Row className='xxl'>
                                             <Col xs={1}> {test.user_no}</Col>
                                             <Col xs={2}> {test.reg_date}</Col>
-                                            <Col xs={2}> v:{test.hit}</Col>
-                                            <Col xs={2}> H:{test.favorite}</Col>
+                                            <Col xs={2}> H:{test.hit}</Col>
+                                            <Col xs={2}> F:{test.favorite}</Col>
 
                                         </Row>
                                     </Link>
