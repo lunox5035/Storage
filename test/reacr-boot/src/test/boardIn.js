@@ -62,7 +62,7 @@ const boardIn = () => {
                         {test.contents}<br />
                     </div>
                     {/* 좋아요 버튼 */}
-                    <div >
+                    <div style={{ textAlign: "center" }}>
                         <button
                             type='button'
                             style={{ height: '100px', width: '100px', borderRadius: '50px' }}

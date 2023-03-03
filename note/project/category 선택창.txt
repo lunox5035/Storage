@@ -1,0 +1,27 @@
+
+    const [RadioButton, setRadioButton] = useState();
+
+    useEffect(() => {
+        Data2.map((test, i) => (
+            setRadioButton(test.category)
+        ));
+    }, [Data2])
+
+
+{/*category 선택창*/}
+                        <div >
+                            <label>category</label>
+                            <br />
+                            <label>
+                                <input type="radio" name="category" onChange={(e) => setRadioButton('자유')} value="자유"
+                                    checked={RadioButton === '자유'} ref={caRef} key={i} />
+                                자유
+                            </label>
+                            <br />
+                            <label>
+                                <input type="radio" name="category" onChange={(e) => setRadioButton('Q&A')} value="Q&A"
+                                    checked={RadioButton === 'Q&A'} ref={caRef} key={i} />
+                                Q&A
+                            </label>
+                            <div key={i}>변화 확인용: {RadioButton}</div>
+                        </div> 

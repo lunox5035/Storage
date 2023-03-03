@@ -23,16 +23,16 @@
       "user_no": 2
     },
     {
-    "id": 3,
-    "no": 3,
-    "category": "Q&A",
-    "title": "test_title3",
-    "contents": "test_contents3",
-    "hit": 11,
-    "reg_date": "2023-02-17",
-    "favorite": 4,
-    "user_no": 1
-  },
+      "id": 3,
+      "no": 3,
+      "category": "Q&A",
+      "title": "test_title3",
+      "contents": "test_contents3",
+      "hit": 11,
+      "reg_date": "2023-02-17",
+      "favorite": 4,
+      "user_no": 1
+    },
     {
       "id": 4,
       "no": 4,

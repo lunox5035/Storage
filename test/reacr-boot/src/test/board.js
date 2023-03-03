@@ -127,7 +127,7 @@ function board() {
                 <button onClick={() => setBoard(Data1.filter(x => x.category === 'Q&A'))} className=' mx-3'>Q&A</button>
 
                 {/* <select name="sorting" id="sorting" onClick={(e) => onSorted}> */}
-                <select onChange={onSorted} id="sorting" value={board.title}>
+                <select onChange={onSorted} id="sorting" value={board.title}>{/* value : title을 기준으로 변경 */}
 
                     <option value="asc" > 오름차순 </option>
                     <option value="desc" > 내림차순 </option>

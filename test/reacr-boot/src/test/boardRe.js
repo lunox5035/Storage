@@ -1,13 +1,15 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Col, Row } from 'react-bootstrap';
+import { Link, useParams } from 'react-router-dom';
 import useFetch from './useFetch';
 
-const boardRe = () => {
+function boardRe() {
     // 데이터 연결
     let Data1 = useFetch("http://localhost:5030/board")
     let [board, setBoard] = useState([])
@@ -22,7 +24,7 @@ const boardRe = () => {
 
     const caRef = useRef(null)
     const tiRef = useRef(null)
-    const coRef = useRef(null)
+    const ctRef = useRef(null)
 
 
     const [RadioButton, setRadioButton] = useState();
@@ -33,58 +35,74 @@ const boardRe = () => {
         ));
     }, [Data2])
 
-    // useEffect(() => { 
-    //     const RadioData = String(Data2.category)
-    //     setRadioButton([...RadioData]); 
-    // }, [Data2])
+    const handleChange = (e) => {
+        setRadioButton(e.target.value);
+    };
 
-    // const [RadioButton, setRadioButton] = useState(Data2.category);
+    function onSubmit(e, test) {
+        e.preventDefault();
+
+        const noDate = useRef(test.no)
+        const ctRef = useRef(null);
+        const hitRef = useRef(test.hit)
+        const rdRef = useRef(test.reg_date)
+        const faRef = useRef(test.favorite)
+        const unRef = useRef(test.user_no)
+
+        if (confirm("저장 하시겠습니까?")) {
+            fetch(`http://localhost:5030/board`, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: noDate,
+                    no: noDate,
+                    category: caRef.current.value,
+                    title: tiRef.current.value,
+                    contents: ctRef.current.value,
+                    hit: hitRef,
+                    reg_date: rdRef,
+                    favorite: faRef,
+                    user_no: unRef,
+                }),
+            })
+                .then(res => res.ok ? alert("수정 완료되었습니다.") : console.error(res));
+        } else {
+            alert("취소되었습니다.");
+        }
+    }
 
     return (
         <>
+
             <div>
                 {Data2.map((test, i) => (
                     <>
-                        {/*category 선택창*/}
-                        <div >
-                            <label>category</label>
-                            <br />
-                            <label>
-                                <input type="radio" name="category" onChange={(e) => setRadioButton('자유')} value="자유"
-                                    checked={RadioButton === '자유'} ref={caRef} key={i} />
-                                자유
-                            </label>
-                            {/* <br /> */}
-                            <label>
-                                <input type="radio" name="category" onChange={(e) => setRadioButton('Q&A')} value="Q&A"
-                                    checked={RadioButton === 'Q&A'} ref={caRef} key={i} />
-                                Q&A
-                            </label>
-                            <div key={i}>변화 확인용: {RadioButton}</div>
-                        </div>
+                        <div className="App mt-5">
 
-
-                        <div className="App">
-                            
-                                <tr>
-                                    <td>category</td>
-                                    <td>제목</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="sorting" value={board.category} ref={caRef}>
-                                            <option value= "자유" checked={RadioButton === '자유'}>자유</option>
-                                            <option value= "Q&A" checked={RadioButton === 'Q&A'}>Q&A</option>
-                                        </select>
-                                    </td>
-                                    <td >
-                                        <input type="text" key={i} defaultValue={test.title} ref={tiRef}  />
-                                    </td>
-                                </tr>
-
-                            <label>제목</label>
-                            <br />
-                            <input type="text" key={i} defaultValue={test.title} ref={tiRef} style={{ width: "100%" }} />
+                            <Row>
+                                <Col xs={2}>category</Col>
+                                <Col xs={10}>제목</Col>
+                            </Row>
+                            <Row>
+                                <Col xs={2}>
+                                    <select
+                                        id="sorting"
+                                        style={{ width: "100%", height: "100%" }}
+                                        defaultChecked={test.category}
+                                        value={RadioButton}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="자유" ref={caRef}>자유</option>
+                                        <option value="Q&A" ref={caRef}>Q&A</option>
+                                    </select>
+                                </Col>
+                                <Col xs={10}>
+                                    <input type="text" key={i} defaultValue={test.title} ref={tiRef} style={{ width: "100%" }} />
+                                </Col>
+                            </Row>
+                            {/* <div key={i}>변화 확인용: {RadioButton}</div> */}
                             <br />
                             <label>내용</label>
                             <CKEditor
@@ -104,8 +122,14 @@ const boardRe = () => {
                                 onFocus={(event, editor) => {
                                     console.log('Focus.', editor);
                                 }}
-                                ref={coRef}
+                                ref={ctRef}
                             />
+                        </div>
+                        <div style={{ textAlign: "center" }}>
+                            <form onSubmit={onSubmit}>
+                                <Link to='/board'><button>목록 </button></Link>
+                                <button >수정</button>
+                            </form>
                         </div>
                     </>
                 ))}
