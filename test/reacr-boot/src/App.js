@@ -10,6 +10,8 @@ import Board from './test/boardIn';
 import BoardRe from './test/boardRe';
 import Ingredient from './test/ingredient';
 import IngredientIn from './test/ingredientin';
+import CoktailIn from './test/coktailIn';
+import Writing from './test/writing';
 
 function App() {
   // const [,] =useState([])
@@ -28,6 +30,8 @@ function App() {
         <Route path='/boardRe/:no' element={<BoardRe />} />
         <Route path='/ingredient' element={<Ingredient />} />
         <Route path='/ingredient/:no' element={<IngredientIn />} />
+        <Route path='/coktailIn/:no' element={<CoktailIn />} />
+        <Route path='/writing' element={<Writing />} />
       </Routes>
       
     </>

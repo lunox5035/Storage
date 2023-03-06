@@ -8,7 +8,8 @@ import useFetch from './useFetch'
 
 function ingredientin() {
 
-    const ingredient = useFetch("http://localhost:4030/ingredient")
+    // const ingredient = useFetch("http://localhost:4030/ingredient")
+    const ingredient = useFetch("http://192.168.0.4:8080/ingredient")
     const ingredientNo = useParams();
 
     const Fdata = ingredient.filter(x => x.no == ingredientNo.no)
@@ -27,16 +28,8 @@ function ingredientin() {
 
             <div className='mt-1'>
                 <Row style={{ margin: '0 10%' }}>
-                    {Fdata.map(test => {
-                        if (test.length === 0) {
-                            return (
-                                <div>
-                                    <Link to={'/ingredient'}>
-                                        <p>준비중입니다</p>
-                                    </Link>
-                                </div>
-                            )
-                        } else {
+                    {Fdata.length != 0 ? (
+                        Fdata.map(test => {
                             return (
                                 test.cocktailRecipes.map(test2 => {
                                     return (
@@ -59,8 +52,14 @@ function ingredientin() {
                                     )
                                 })
                             )
-                        }
-                    })}
+                        })
+                    ) : (
+                        <div>
+                            <Link to={'/ingredient'}>
+                                <p>준비중입니다</p>
+                            </Link>
+                        </div>
+                    )}
                 </Row>
             </div>
         </>

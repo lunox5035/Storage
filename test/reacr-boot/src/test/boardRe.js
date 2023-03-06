@@ -22,11 +22,7 @@ function boardRe() {
         setData2(board.filter(x => x.no == boardNo.no))
     }, [board])
 
-    const caRef = useRef(null)
-    const tiRef = useRef(null)
-    const ctRef = useRef(null)
-
-
+    //카테고리 선택
     const [RadioButton, setRadioButton] = useState();
 
     useEffect(() => {
@@ -39,35 +35,53 @@ function boardRe() {
         setRadioButton(e.target.value);
     };
 
-    function onSubmit(e, test) {
+    const caRef = useRef(null)
+    const tiRef = useRef(null)
+
+    const testno = useParams().no;
+
+    //CK에디터 데이터 받아오기
+    const [contentsData, setContentsData] = useState("");
+
+    const handleEditorChange = (event, editor) => {
+        const data = editor.getData();
+        console.log(data)
+        setContentsData(data);
+    };
+
+    function onSubmit(e) {
+
         e.preventDefault();
-
-        const noDate = useRef(test.no)
-        const ctRef = useRef(null);
-        const hitRef = useRef(test.hit)
-        const rdRef = useRef(test.reg_date)
-        const faRef = useRef(test.favorite)
-        const unRef = useRef(test.user_no)
-
+        
         if (confirm("저장 하시겠습니까?")) {
-            fetch(`http://localhost:5030/board`, {
-                method: "post",
+            fetch(`http://localhost:5030/board?no=${testno}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: noDate,
-                    no: noDate,
                     category: caRef.current.value,
                     title: tiRef.current.value,
-                    contents: ctRef.current.value,
-                    hit: hitRef,
-                    reg_date: rdRef,
-                    favorite: faRef,
-                    user_no: unRef,
+                    contents: contentsData,
                 }),
             })
-                .then(res => res.ok ? alert("수정 완료되었습니다.") : console.error(res));
+            .then(res => {
+                if (res.ok) {
+                    alert("수정 완료되었습니다.");
+                    location.href = '/board'; // 브라우저 캐시를 비우기 위해 페이지를 다시 로드하세요.
+                } else {
+                    throw new Error(`${res.status} (${res.statusText})`);
+                }
+            })
+            .catch(error => console.error(`수정 중 오류가 발생했습니다: ${error}`));
+
+            // axios.patch('http://localhost:5030/board?no=1', {
+            //     category: caRef.current.value,
+            //     title: tiRef.current.value,
+            //     contents: contentsData
+            // })
+            //    .then(res => res.ok ? alert("수정 완료되었습니다.") : console.error(res));
+
         } else {
             alert("취소되었습니다.");
         }
@@ -107,22 +121,22 @@ function boardRe() {
                             <label>내용</label>
                             <CKEditor
                                 editor={ClassicEditor}
+                                onChange={handleEditorChange}
                                 data={test.contents}
                                 onReady={editor => {
                                     // You can store the "editor" and use when it is needed.
                                     console.log('Editor is ready to use!', editor);
                                 }}
-                                onChange={(event, editor) => {
-                                    const data = editor.getData();
-                                    console.log({ event, editor, data });
-                                }}
+                                // onChange={(event, editor) => {
+                                //     const data = editor.getData();
+                                //     console.log({ event, editor, data });
+                                // }}
                                 onBlur={(event, editor) => {
                                     console.log('Blur.', editor);
                                 }}
                                 onFocus={(event, editor) => {
                                     console.log('Focus.', editor);
                                 }}
-                                ref={ctRef}
                             />
                         </div>
                         <div style={{ textAlign: "center" }}>
@@ -134,6 +148,7 @@ function boardRe() {
                     </>
                 ))}
             </div>
+            
         </>
     )
 }

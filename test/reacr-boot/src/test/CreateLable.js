@@ -2,20 +2,20 @@ import { useRef, useState } from 'react';
 import useFetch from './useFetch';
 
 function CreateLable() {
-    const cocktail = useFetch("http://localhost:3030/cocktail")
+    const cocktail = useFetch("http://localhost:5030/board")
 
     const [RadioButton, setRadioButton] = useState('자유');
     function onSubmit(e) {
         e.preventDefault();
 
-        fetch(`http://localhost:3030/cocktail/`, {
+        fetch(`http://localhost:5030/board`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: noDate,
-                no: noDate,
+                id: noData,
+                no: noData,
                 category: caRef.current.value,
                 title: tiRef.current.value,
                 contents: ctRef.current.value,
@@ -25,14 +25,14 @@ function CreateLable() {
                 user_no: unRef.current.value,
             }),
         })
-        .then(res => {
-            if (res.ok) {
-                alert("생성이 완료되었습니다.")
-            }
-        });
+            .then(res => {
+                if (res.ok) {
+                    alert("생성이 완료되었습니다.")
+                }
+            });
     }
-    
-    const noDate = Math.max.apply(null, cocktail.map(function(v){return v.no}))+1;
+
+    const noData = Math.max.apply(null, cocktail.map(function (v) { return v.no })) + 1;
     const caRef = useRef(null);
     const tiRef = useRef(null);
     const ctRef = useRef(null);
@@ -66,9 +66,9 @@ function CreateLable() {
                     {/*
                     <label>Type</label>
                     <select>
-                        {cocktail.map(Date => (
-                            <option key={Date.type} value={Date.type} ref={tyRef}>
-                                {Date.type}
+                        {cocktail.map(test => (
+                            <option key={test.type} value={test.type} ref={tyRef}>
+                                {test.type}
                             </option>
                         ))}
                     </select>

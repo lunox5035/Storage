@@ -12,6 +12,7 @@ import useFetch from './useFetch'
 function board() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     let Data1 = useFetch("http://localhost:5030/board")
+    // let Data1 = useFetch("http://192.168.0.4:8080/cocktail")
 
     let [board, setBoard] = useState([])
     let [topHitData, setTopHitData] = useState([])
@@ -135,7 +136,7 @@ function board() {
 
             </div>
             <div className='d-flex justify-content-end'>
-                <button><a href='/CreateLable'>추가</a></button>
+                <button><a href='/writing'>추가</a></button>
             </div>
             {/* 내용  그리드 */}
             <div className='m-5'>

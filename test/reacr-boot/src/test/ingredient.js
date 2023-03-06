@@ -6,7 +6,8 @@ import useFetch from './useFetch'
 
 function ingredient() {
 
-  const Data1 = useFetch("http://localhost:4030/ingredient")
+  // const Data1 = useFetch("http://localhost:4030/ingredient")
+  const Data1 = useFetch("http://192.168.0.4:8080/ingredient")
   let [cocktail, setCocktail] = useState([])
 
   useEffect(() => { setCocktail(Data1) }, [Data1])

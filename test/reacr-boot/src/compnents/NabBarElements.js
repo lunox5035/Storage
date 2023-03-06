@@ -34,14 +34,14 @@ function NabBarElements() {
       <Navbar bg="dark" variant="dark">
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/CreateLable">입력</Nav.Link>
-          <Nav.Link href="/board">출력</Nav.Link>
+          <Nav.Link href="/CoktailIn">칵테일</Nav.Link>
+          <Nav.Link href="/board">개시판</Nav.Link>
           <NavDropdown title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="/boardIn">임시칵테일페이지</NavDropdown.Item>
             <NavDropdown.Item href="/ingredient">
               재료
             </NavDropdown.Item>
-            <NavDropdown.Item href="/">link</NavDropdown.Item>
+            <NavDropdown.Item href="/writing">writing</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="#action/3.4">
               Separated link

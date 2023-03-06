@@ -6,6 +6,7 @@ import bgi from './db/하트.png'
 function coktailIn() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const Data1 = useFetch("http://localhost:3030/cocktail")
+    // const Data1 = useFetch("http://192.168.0.4:8080/cocktail")
     const cocktail = Data1.filter(x => x.no === 2) /* no, id 받아오기 */
 
     // eslint-disable-next-line react-hooks/rules-of-hooks

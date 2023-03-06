@@ -25,7 +25,7 @@ const boardIn = () => {
 
         if (window.confirm("정말 삭제합니까?")) {
             alert("삭제되었습니다.");
-            window.location.href = '/'
+            window.location.href = '/board'
         }
     };
     console.log(Data4)
