@@ -54,15 +54,15 @@ function boardRe() {
         e.preventDefault();
         
         if (confirm("저장 하시겠습니까?")) {
-            fetch(`http://localhost:5030/board?no=${testno}`, {
-                method: "PUT",
+            fetch(`http://localhost:5030/board/${testno}`, {
+                method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     category: caRef.current.value,
                     title: tiRef.current.value,
-                    contents: contentsData,
+                    contents: contentsData
                 }),
             })
             .then(res => {
