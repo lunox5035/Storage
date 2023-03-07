@@ -9,7 +9,8 @@ import { Link } from 'react-router-dom';
 import useFetch from './useFetch';
 
 function writing() {
-    let Data1 = useFetch("http://localhost:5030/board")
+    // let Data1 = useFetch("http://localhost:5030/board")
+    let Data1 = useFetch("http://192.168.0.4:8080/board/list/")
 
     const noData = Math.max.apply(null, Data1.map(function (v) { return v.no })) + 1;
     const caRef = useRef(null);
@@ -31,21 +32,23 @@ function writing() {
     function onSubmit(e) {
         e.preventDefault();
         if (confirm("저장 하시겠습니까?")) {
-            fetch(`http://localhost:5030/board`, {
+            // fetch(`http://localhost:5030/board`, { 
+            fetch(`http://192.168.0.4:8080/board/list`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: noData,
+                    // id: noData,
                     no: noData,
                     category: caRef.current.value,
                     title: tiRef.current.value,
                     contents: contentsData,
                     hit: 0,
-                    reg_date: '2023-02-17',
-                    favorite: 0,
-                    user_no: 1,
+                    createdDate: '2023-02-17',
+                    likes: 0,
+                    member: 1,
+                    imgs: null
                 }),
             })
                 .then(res => {

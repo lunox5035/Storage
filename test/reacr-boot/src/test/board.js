@@ -11,8 +11,8 @@ import useFetch from './useFetch'
 
 function board() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    let Data1 = useFetch("http://localhost:5030/board")
-    // let Data1 = useFetch("http://192.168.0.4:8080/cocktail")
+    // let Data1 = useFetch("http://localhost:5030/board")
+    let Data1 = useFetch("http://192.168.0.4:8080/board/list")
 
     let [board, setBoard] = useState([])
     let [topHitData, setTopHitData] = useState([])
@@ -62,22 +62,26 @@ function board() {
     };
 
     // 방문자수 증가 함수
-    const [hitRef, setHitRef] = useState(0);
-    useEffect(() => { setHitRef([...Data1]); }, [Data1])
 
-    // const handleClick = (e) => {
-    //     setHitRef(Number(hitRef.filter(x=>x.no == test.no)) + 1);
-    //     e.preventDefault();
-    //     fetch('http://localhost:5030/board', {
-    //         method: 'PUT',
-    //         body: JSON.stringify({
-    //             hit: { hitRef }
-    //         })
-    //     })
-    //     console.log("0.:"+hitRef)
-    // };
-    console.log(hitRef)
-    console.log("2.:" + Data1.hit)
+    const handleClick = (event, test) => {
+        if (test && test.no) {
+            const updatedHit = Number((board.filter(x => x.no === test.no))[0].hit) + 1;
+            event.preventDefault();
+            // fetch(`http://localhost:5030/board/${test.no}`, {
+            fetch(`http://192.168.0.4:8080/board/list/${test.no}`, {
+                method: 'PATCH',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    hit: updatedHit
+                })
+            })
+        } else {
+            console.log('X or X.no is undefined or null');
+        };
+        window.location.href = `/boardIn/${test.no}`;
+    };
 
     return (
         <>
@@ -149,36 +153,22 @@ function board() {
                                 </div>
                                 <div className='border' >
 
-                                    <Link
-                                        // onClick={handleClick(e)}
-                                        onClick={(e) => {
-                                            setHitRef(Number(hitRef.filter(x => x.no == test.no)) + 1);
-                                            e.preventDefault();
-                                            fetch('http://localhost:5030/board', {
-                                                method: 'PUT',
-                                                body: JSON.stringify({
-                                                    hit: { hitRef }
-                                                })
-                                            })
-                                            console.log("0.:" + hitRef)
-                                        }}
-                                        to={`/boardIn/${test.no}`}
-                                        style={{ textDecoration: 'none', textDecorationColor: "black" }}
+                                    <Link onClick={(e) => handleClick(e, test)}>
+                                        <div>
+                                            <Row className='mt-3 xxl'>
 
-                                    >
-                                        <Row className='mt-3 xxl'>
+                                                <Col xs={1}> {test.category}</Col>
+                                                <Col xs={6} className='text-start'> {test.title}</Col>
+                                                <Col ><button><Link to={`/boardRe/${test.no}`}>수정</Link></button></Col>
+                                            </Row>
+                                            <Row className='xxl'>
+                                                <Col xs={1}> {test.member}</Col>
+                                                <Col xs={2}> {test.createdDate}</Col>
+                                                <Col xs={2}> H:{test.hit}</Col>
+                                                <Col xs={2}> F:{test.likes}</Col>
 
-                                            <Col xs={1}> {test.category}</Col>
-                                            <Col xs={6} className='text-start'> {test.title}</Col>
-                                            <Col ><button><Link to={`/boardRe/${test.no}`}>수정</Link></button></Col>
-                                        </Row>
-                                        <Row className='xxl'>
-                                            <Col xs={1}> {test.user_no}</Col>
-                                            <Col xs={2}> {test.reg_date}</Col>
-                                            <Col xs={2}> H:{test.hit}</Col>
-                                            <Col xs={2}> F:{test.favorite}</Col>
-
-                                        </Row>
+                                            </Row>
+                                        </div>
                                     </Link>
                                 </div>
                             </h3>

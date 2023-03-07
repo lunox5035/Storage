@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import useFetch from './useFetch'
+import parse from 'html-react-parser';
 
 const boardIn = () => {
 
     // 데이터 연결
-    let Data1 = useFetch("http://localhost:5030/board")
+    // let Data1 = useFetch("http://localhost:5030/board")
+    let Data1 = useFetch("http://192.168.0.4:8080/board/list/")
     let [board, setBoard] = useState([])
     useEffect(() => { setBoard([...Data1]); }, [Data1])
 
@@ -30,6 +32,26 @@ const boardIn = () => {
     };
     console.log(Data4)
 
+    //좋아요수 증가 함수
+
+    const handleClick = (event, test) => {
+        if (test && test.no) {
+            const updatedFavorite = Number((board.filter(x => x.no === test.no))[0].favorite) + 1;
+            event.preventDefault();
+            // fetch(`http://localhost:5030/board/${test.no}`, {
+            fetch(`http://192.168.0.4:8080/board/list/${test.no}`, {
+                method: 'PATCH',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    favorite: updatedFavorite
+                })
+            })
+        } else {
+            console.log('X or X.no is undefined or null');
+        }
+    };
     return (
         <div>
             {Data2.map(test => (
@@ -66,6 +88,7 @@ const boardIn = () => {
                         <button
                             type='button'
                             style={{ height: '100px', width: '100px', borderRadius: '50px' }}
+                            onClick={(e) => handleClick(e, test)}
                         >
                             좋아요
                         </button>
@@ -77,19 +100,20 @@ const boardIn = () => {
                             <h4>댓글</h4>
                         </p>
                         <table className='border text-center'>
-                            {Data4.map(X => (
-                                <>
+                            {Data4.map(X => {
+                                return (
                                     <tr>
                                         <td>{X.user_no}</td>
-                                        <td>{X.contents}</td>
+                                        <td>{parse(X.contents)}</td>
                                         <td>{X.reg_date}</td>
                                         <td style={{ width: "10%" }}>
                                             <button><Link to={`/boardRe/${test.no}`}>수정</Link></button>
                                             <button onClick={onRemove}>삭제</button>
                                         </td>
                                     </tr>
-                                </>
-                            ))}
+
+                                )
+                            })}
                         </table>
                     </div>
                 </>
