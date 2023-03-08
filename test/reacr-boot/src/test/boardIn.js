@@ -10,15 +10,8 @@ const boardIn = () => {
     let Data1 = useFetch("/board/list/")
     let [board, setBoard] = useState([])
 
-    // //댓글
-    // let Data3 = useFetch("http://localhost:7030/review")
-    // let [review, setReview] = useState([])
-    // useEffect(() => { setReview([...Data3]); }, [Data3])
-
     //데이터 분류 (Params)
     const boardNo = Number(useParams().no);
-    // console.log(typeof boardNo)
-    // console.log(boardNo)
 
     // const Data2 = board.filter(x => x.no == boardNo.no)
     const Data2 = useFetch(`/board/view/${boardNo}`)
@@ -32,12 +25,24 @@ const boardIn = () => {
     // console.log(typeof Data2.reviews)
     // console.log(Array.isArray(Data2.reviews));
 
-    // confirm 창
-    const onRemove = () => {
-
-        if (window.confirm("정말 삭제합니까?")) {
-            alert("삭제되었습니다.");
-            window.location.href = '/board'
+    // 본문 삭제 
+    const onRemove = (event) => {
+       event.preventDefault();
+        if (confirm("정말 삭제합니까?")) {
+            fetch(`/board/delete/${boardNo}`, {
+                method: "DELETE"
+            })
+                .then(res => {
+                    if (res.ok) {
+                        alert("삭제되었습니다.");
+                        location.href = '/board'; // 브라우저 캐시를 비우기 위해 페이지를 다시 로드하세요.
+                    } else {
+                        throw new Error(`${res.status} (${res.statusText})`);
+                    }
+                })
+                .catch(error => console.error(`실행 중 오류가 발생했습니다: ${error}`));
+        } else {
+            alert("취소되었습니다.");
         }
     };
 
@@ -159,7 +164,7 @@ const boardIn = () => {
                                     <td>{app.createdDate}</td>
                                     <td style={{ width: "10%" }}>
                                         <button><Link to={`/boardRe/${boardNo}`}>수정</Link></button>
-                                        <button onClick={onRemove}>삭제</button>
+                                        <button onClick={onRemove2}>삭제</button>
                                     </td>
                                 </tr>
                             )
@@ -170,7 +175,7 @@ const boardIn = () => {
                             <td>2023-03-08</td>
                             <td style={{ width: "10%" }}>
                                 <button><Link to={`/boardRe/${boardNo}`}>수정</Link></button>
-                                <button onClick={onRemove}>삭제</button>
+                                {/* <button onClick={onRemove2}>삭제</button> */}
                             </td>
                         </tr>
                     </table>

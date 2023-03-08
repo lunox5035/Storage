@@ -13,16 +13,17 @@ function board(props) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     let Data1 = useFetch("/board/list")
 
+    //페이징 데이터
+    const [data, setData] = useState([]); // 전체 / 데이터 원본 데이터 화
+    const [itemsPerPage, setItemsPerPage] = useState(10); // 한 페이지에 보여질 아이템 수
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+    //분류 데이터
     let [board, setBoard] = useState([])
+    //정렬 데이터
     let [topHitData, setTopHitData] = useState([])
     let [topFavoriteData, setTopFavoriteData] = useState([])
 
-    useEffect(() => {
-        setBoard([...Data1]);
-        setTopHitData([...Data1]);
-        setTopFavoriteData([...Data1]);
-    }, [Data1])
-
+    //정렬 소스코드
     var sortJSON = function (data, key, type) {
         if (type == undefined) {
             type = "asc";
@@ -38,19 +39,10 @@ function board(props) {
         });
     };
 
-    // 정렬 데이터
-    sortJSON(topHitData, "hit", "desc")
-    sortJSON(topFavoriteData, "favorite", "desc")
-
-    //  내림차순 이벤트
-
     const [sorting, setSorting] = useState("asc");
-
     const onSorted = (e) => {
         const sortByValue = e.target.value;
-
         setSorting(sortByValue);
-
         if (sortByValue === 'asc') {
             sortJSON(board, "title", "asc")
         } else if (sortByValue === 'desc') {
@@ -58,8 +50,32 @@ function board(props) {
         }
     };
 
-    // 방문자수 증가 함수
+    sortJSON(topHitData, "hit", "desc")
+    sortJSON(topFavoriteData, "favorite", "desc")
 
+    //페이징 소스코드
+
+    useEffect(() => {
+        setData([...Data1])
+        setBoard([...Data1]);
+        setTopHitData([...Data1]);
+        setTopFavoriteData([...Data1]);
+    }, [Data1])
+
+    const totalPages = Math.ceil(board.length / itemsPerPage); // 전체 페이지 수
+    const startItem = (currentPage - 1) * itemsPerPage; // 현재 페이지 시작 아이템 인덱스
+    const endItem = currentPage * itemsPerPage; // 현재 페이지 마지막 아이템 인덱스
+    const currentData = board.slice(startItem, endItem); // 현재 페이지 데이터
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handleItemsPerPageChange = (e) => {
+        setItemsPerPage(e.target.value)
+    }
+
+    // 방문자수 증가 함수
     const handleClick = (event, test) => {
         if (test && test.no) {
             const updatedHit = Number((board.filter(x => x.no === test.no))[0].hit) + 1;
@@ -80,38 +96,7 @@ function board(props) {
         window.location.href = `/boardIn/${test.no}`;
     };
 
-
-    //페이징
-    const [itemsPerPage, setItemsPerPage] = useState(10); // 한 페이지에 보여질 아이템 수
-    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-    const [data, setData] = useState([]); // 전체 데이터
-
-    useEffect(() => {
-        // fetch 를 사용하여 데이터 가져오기
-        const fetchData = async () => {
-            const result = await fetch("/board/list");
-            const data = await result.json();
-            setData(data);
-        };
-        fetchData();
-    }, []);
-
-    const totalPages = Math.ceil(data.length / itemsPerPage); // 전체 페이지 수
-    const startItem = (currentPage - 1) * itemsPerPage; // 현재 페이지 시작 아이템 인덱스
-    const endItem = currentPage * itemsPerPage; // 현재 페이지 마지막 아이템 인덱스
-    const currentData = data.slice(startItem, endItem); // 현재 페이지 데이터
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-
-
-    const handleItemsPerPageChange = (e) => {
-        setItemsPerPage(e.target.value)
-    }
     return (
-
         <>
             <div className='border ' style={{ margin: "auto", height: "500px", width: "1400px" }}>
                 <h2 className='text-center'> 오늘의 Best 게시글</h2>
@@ -155,10 +140,16 @@ function board(props) {
             </div>
 
             <div className='d-flex justify-content-center mt-1'> {/* 필터 버튼 */}
-                <button onClick={() => setData(Data1)} className='DefaultButton mx-3'>전체</button>
-                <button onClick={() => setData(Data1.filter(x => x.category === 'random'))} className=' mx-3'>자유</button>
-                <button onClick={() => setData(Data1.filter(x => x.category === 'question'))} className=' mx-3'>Q&A</button>
-
+                {/* <button onClick={() => {
+                    const sortedData = sortJSON(board, "no", "asc");
+                    setData(Data1);
+                }}>
+                    초기화
+                </button> */}
+                <button onClick={() => setBoard(Data1)} className='DefaultButton mx-3'>전체</button>
+                <button onClick={() => setBoard(Data1.filter(x => x.category === 'random'))} className=' mx-3'>자유</button>
+                <button onClick={() => setBoard(Data1.filter(x => x.category === 'question'))} className=' mx-3'>Q&A</button>
+                {/*  */}
                 <select onChange={onSorted} id="sorting" value={board.title}>   {/* value : title을 기준으로 변경 */}
                     <option value="asc" > 오름차순 </option>
                     <option value="desc" > 내림차순 </option>
