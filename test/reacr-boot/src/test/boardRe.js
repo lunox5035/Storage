@@ -11,7 +11,9 @@ import useFetch from './useFetch';
 
 function boardRe() {
     // 데이터 연결
-    let Data1 = useFetch("http://localhost:5030/board")
+    // let Data1 = useFetch("http://localhost:5030/board")
+    let Data1 = useFetch("http://192.168.0.4:8080/board/list")
+
     let [board, setBoard] = useState([])
     useEffect(() => { setBoard([...Data1]); }, [Data1])
 
@@ -54,8 +56,9 @@ function boardRe() {
         e.preventDefault();
         
         if (confirm("저장 하시겠습니까?")) {
-            fetch(`http://localhost:5030/board/${testno}`, {
-                method: "PATCH",
+            // fetch(`http://localhost:5030/board/${testno}`, {
+            fetch(`http://192.168.0.4:8080/board/list/${testno}`, {
+                    method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -108,8 +111,8 @@ function boardRe() {
                                         value={RadioButton}
                                         onChange={handleChange}
                                     >
-                                        <option value="자유" ref={caRef}>자유</option>
-                                        <option value="Q&A" ref={caRef}>Q&A</option>
+                                        <option value="random" ref={caRef}>자유</option>
+                                        <option value="question" ref={caRef}>Q&A</option>
                                     </select>
                                 </Col>
                                 <Col xs={10}>

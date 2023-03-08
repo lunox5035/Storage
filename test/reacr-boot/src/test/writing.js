@@ -10,7 +10,7 @@ import useFetch from './useFetch';
 
 function writing() {
     // let Data1 = useFetch("http://localhost:5030/board")
-    let Data1 = useFetch("http://192.168.0.4:8080/board/list/")
+    let Data1 = useFetch("/board/list")
 
     const noData = Math.max.apply(null, Data1.map(function (v) { return v.no })) + 1;
     const caRef = useRef(null);
@@ -33,22 +33,22 @@ function writing() {
         e.preventDefault();
         if (confirm("저장 하시겠습니까?")) {
             // fetch(`http://localhost:5030/board`, { 
-            fetch(`http://192.168.0.4:8080/board/list`, {
+            fetch(`/board/write`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     // id: noData,
-                    no: noData,
+                    // no: null,
                     category: caRef.current.value,
                     title: tiRef.current.value,
                     contents: contentsData,
-                    hit: 0,
-                    createdDate: '2023-02-17',
-                    likes: 0,
-                    member: 1,
-                    imgs: null
+                    // hit: 0,
+                    // createdDate: Date(),
+                    // likes: [],
+                    // member: [],
+                    files: []
                 }),
             })
                 .then(res => {
@@ -80,10 +80,12 @@ function writing() {
                                 <select
                                     id="sorting"
                                     style={{ width: "100%", height: "100%" }}
-                                    defaultChecked="자유"
+                                    defaultChecked="random"
+                                    ref={caRef}
                                 >
-                                    <option value="자유" ref={caRef}>자유</option>
-                                    <option value="Q&A" ref={caRef}>Q&A</option>
+                                    
+                                    <option value="random">random</option>
+                                    <option value="question">question</option>
                                 </select>
                             </Col>
                             <Col xs={10}>

@@ -3,9 +3,9 @@
     {
       "id": 1,
       "no": 1,
-      "category": "Q&A",
-      "title": "test_title1123",
-      "contents": "<p>test_contents1ㅁㄴㅇ</p>",
+      "category": "question",
+      "title": "제목123",
+      "contents": "<p>내용123</p>",
       "hit": 17,
       "reg_date": "2023-02-17",
       "favorite": 0,

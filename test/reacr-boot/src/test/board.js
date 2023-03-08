@@ -9,22 +9,19 @@ import { Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import useFetch from './useFetch'
 
-function board() {
+function board(props) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    // let Data1 = useFetch("http://localhost:5030/board")
-    let Data1 = useFetch("http://192.168.0.4:8080/board/list")
+    let Data1 = useFetch("/board/list")
 
     let [board, setBoard] = useState([])
     let [topHitData, setTopHitData] = useState([])
     let [topFavoriteData, setTopFavoriteData] = useState([])
 
-    useEffect(() => { setBoard([...Data1]); }, [Data1])
-    useEffect(() => { setTopHitData([...Data1]); }, [Data1])
-    useEffect(() => { setTopFavoriteData([...Data1]); }, [Data1])
-
-    // const handleSelect = (e) => {
-    //     setBoard(e.target.value);
-    // };
+    useEffect(() => {
+        setBoard([...Data1]);
+        setTopHitData([...Data1]);
+        setTopFavoriteData([...Data1]);
+    }, [Data1])
 
     var sortJSON = function (data, key, type) {
         if (type == undefined) {
@@ -68,7 +65,7 @@ function board() {
             const updatedHit = Number((board.filter(x => x.no === test.no))[0].hit) + 1;
             event.preventDefault();
             // fetch(`http://localhost:5030/board/${test.no}`, {
-            fetch(`http://192.168.0.4:8080/board/list/${test.no}`, {
+            fetch(`/board/list/${test.no}`, {
                 method: 'PATCH',
                 headers: {
                     "Content-Type": "application/json",
@@ -83,7 +80,38 @@ function board() {
         window.location.href = `/boardIn/${test.no}`;
     };
 
+
+    //페이징
+    const [itemsPerPage, setItemsPerPage] = useState(10); // 한 페이지에 보여질 아이템 수
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+    const [data, setData] = useState([]); // 전체 데이터
+
+    useEffect(() => {
+        // fetch 를 사용하여 데이터 가져오기
+        const fetchData = async () => {
+            const result = await fetch("/board/list");
+            const data = await result.json();
+            setData(data);
+        };
+        fetchData();
+    }, []);
+
+    const totalPages = Math.ceil(data.length / itemsPerPage); // 전체 페이지 수
+    const startItem = (currentPage - 1) * itemsPerPage; // 현재 페이지 시작 아이템 인덱스
+    const endItem = currentPage * itemsPerPage; // 현재 페이지 마지막 아이템 인덱스
+    const currentData = data.slice(startItem, endItem); // 현재 페이지 데이터
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+
+
+    const handleItemsPerPageChange = (e) => {
+        setItemsPerPage(e.target.value)
+    }
     return (
+
         <>
             <div className='border ' style={{ margin: "auto", height: "500px", width: "1400px" }}>
                 <h2 className='text-center'> 오늘의 Best 게시글</h2>
@@ -127,56 +155,138 @@ function board() {
             </div>
 
             <div className='d-flex justify-content-center mt-1'> {/* 필터 버튼 */}
-                <button onClick={() => setBoard(Data1)} className='DefaultButton mx-3'>전체</button>
-                <button onClick={() => setBoard(Data1.filter(x => x.category === '자유'))} className=' mx-3'>자유</button>
-                <button onClick={() => setBoard(Data1.filter(x => x.category === 'Q&A'))} className=' mx-3'>Q&A</button>
+                <button onClick={() => setData(Data1)} className='DefaultButton mx-3'>전체</button>
+                <button onClick={() => setData(Data1.filter(x => x.category === 'random'))} className=' mx-3'>자유</button>
+                <button onClick={() => setData(Data1.filter(x => x.category === 'question'))} className=' mx-3'>Q&A</button>
 
-                {/* <select name="sorting" id="sorting" onClick={(e) => onSorted}> */}
-                <select onChange={onSorted} id="sorting" value={board.title}>{/* value : title을 기준으로 변경 */}
-
+                <select onChange={onSorted} id="sorting" value={board.title}>   {/* value : title을 기준으로 변경 */}
                     <option value="asc" > 오름차순 </option>
                     <option value="desc" > 내림차순 </option>
                 </select>
 
+                <select id="paging" onChange={handleItemsPerPageChange} value={itemsPerPage} defaultValue={10}>
+                    <option value="5" > 5 </option>
+                    <option value="10" > 10 </option>
+                    <option value="15" > 15 </option>
+                    <option value="20" > 20 </option>
+                </select>
             </div>
+
             <div className='d-flex justify-content-end'>
                 <button><a href='/writing'>추가</a></button>
             </div>
+
+
+
             {/* 내용  그리드 */}
-            <div className='m-5'>
+            <>
+                {/* 페이지별 데이터 출력 */}
+                <div className='m-5'>
+                    <Row>
+                        <Col xs={1} />
+                        <Col xs={10} >
+                            {currentData.map((test, i) => {
+                                // if (i < { countNo }) {
+                                return (
+                                    <h3 className='text-center' key={i}>
+                                        <div className="d-flex align-items-center" style={{ float: "left", height: "67px" }}>                            <p>{test.no}</p>
+                                        </div>
+                                        <div className='border' >
+
+                                            <Link onClick={(e) => handleClick(e, test)}>
+                                                <div>
+                                                    <Row className='mt-3 xxl'>
+
+                                                        <Col xs={1}> {test.category}</Col>
+                                                        <Col xs={6} className='text-start'> {test.title}</Col>
+                                                        <Col ><button><Link to={`/boardRe/${test.no}`}>수정</Link></button></Col>
+                                                    </Row>
+                                                    <Row className='xxl'>
+                                                        <Col xs={1}> {test.member}</Col>
+                                                        <Col xs={2}> {test.createdDate}</Col>
+                                                        <Col xs={2}> H:{test.hit}</Col>
+                                                        <Col xs={2}> F:{test.likes}</Col>
+
+                                                    </Row>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </h3>
+                                )
+                                // }
+                            })}
+                        </Col>
+                        <Col xs={1} />
+                    </Row>
+                </div >
+
+
+                {/* 페이징 UI */}
+                <div className="pagination flex justify-content-center" >
+                    {/* 이전 버튼 */}
+                    {currentPage !== 1 && (
+                        <button onClick={() => handlePageChange(currentPage - 1)}>
+                            Previous
+                        </button>
+                    )}
+
+                    {/* 페이지 번호 목록 */}
+                    {Array.from({ length: totalPages }).map((_, index) => (
+                        <button
+                            key={index + 1}
+                            onClick={() => handlePageChange(index + 1)}
+                            className={currentPage === index + 1 ? "active" : ""} //css 수정해야됨 : .active를 변경시 현재페이지 표시됨 
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+
+                    {/* 다음 버튼 */}
+                    {currentPage !== totalPages && (
+                        <button onClick={() => handlePageChange(currentPage + 1)}>
+                            Next
+                        </button>
+                    )}
+                </div>
+            </>
+            {/* <div className='m-5'>
                 <Row>
                     <Col xs={1} />
                     <Col xs={10} >
-                        {board.map((test, i) => (
-                            <h3 className='text-center' key={i}>
-                                <div className="d-flex align-items-center" style={{ float: "left", height: "67px" }}>                            <p>{test.no}</p>
-                                </div>
-                                <div className='border' >
-
-                                    <Link onClick={(e) => handleClick(e, test)}>
-                                        <div>
-                                            <Row className='mt-3 xxl'>
-
-                                                <Col xs={1}> {test.category}</Col>
-                                                <Col xs={6} className='text-start'> {test.title}</Col>
-                                                <Col ><button><Link to={`/boardRe/${test.no}`}>수정</Link></button></Col>
-                                            </Row>
-                                            <Row className='xxl'>
-                                                <Col xs={1}> {test.member}</Col>
-                                                <Col xs={2}> {test.createdDate}</Col>
-                                                <Col xs={2}> H:{test.hit}</Col>
-                                                <Col xs={2}> F:{test.likes}</Col>
-
-                                            </Row>
+                        {board.map((test, i) => {
+                            // if (i < { countNo }) {
+                                return (
+                                    <h3 className='text-center' key={i}>
+                                        <div className="d-flex align-items-center" style={{ float: "left", height: "67px" }}>                            <p>{test.no}</p>
                                         </div>
-                                    </Link>
-                                </div>
-                            </h3>
-                        ))}
+                                        <div className='border' >
+
+                                            <Link onClick={(e) => handleClick(e, test)}>
+                                                <div>
+                                                    <Row className='mt-3 xxl'>
+
+                                                        <Col xs={1}> {test.category}</Col>
+                                                        <Col xs={6} className='text-start'> {test.title}</Col>
+                                                        <Col ><button><Link to={`/boardRe/${test.no}`}>수정</Link></button></Col>
+                                                    </Row>
+                                                    <Row className='xxl'>
+                                                        <Col xs={1}> {test.member}</Col>
+                                                        <Col xs={2}> {test.createdDate}</Col>
+                                                        <Col xs={2}> H:{test.hit}</Col>
+                                                        <Col xs={2}> F:{test.likes}</Col>
+
+                                                    </Row>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </h3>
+                                )
+                            // }
+                        })}
                     </Col>
                     <Col xs={1} />
                 </Row>
-            </div >
+            </div > */}
         </>
     )
 }
