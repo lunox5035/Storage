@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useRef, useState } from 'react'
@@ -6,28 +7,24 @@ import useFetch from './useFetch'
 
 const boardIn = () => {
     // 데이터 연결
-    // let Data1 = useFetch("http://localhost:5030/board")
-    let Data1 = useFetch("/board/list/")
-    let [board, setBoard] = useState([])
-
-    //데이터 분류 (Params)
     const boardNo = Number(useParams().no);
+    // const [Data, setData] = useState([]);
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         const response = await fetch(`/board/view/${boardNo}`)
+    //         const data = await response.json();
+    //         setData([data])
+    //     }
+    //     fetchData()
+    // }, [boardNo])
+    const Data = useFetch(`/board/view/${boardNo}`)
 
-    // const Data2 = board.filter(x => x.no == boardNo.no)
-    const Data2 = useFetch(`/board/view/${boardNo}`)
-    // const Data4 = review.filter(x => x.board_no == boardNo.no)
-
-    useEffect(() => { setBoard([...Data1]); }, [Data1])
-
-
-    console.log(Data2)
-    console.log(Data2.reviews)
-    // console.log(typeof Data2.reviews)
-    // console.log(Array.isArray(Data2.reviews));
+    console.log(Data)
+    console.log(Data.reviews)
 
     // 본문 삭제 
     const onRemove = (event) => {
-       event.preventDefault();
+        event.preventDefault();
         if (confirm("정말 삭제합니까?")) {
             fetch(`/board/delete/${boardNo}`, {
                 method: "DELETE"
@@ -46,26 +43,47 @@ const boardIn = () => {
         }
     };
 
-    //좋아요수 증가 함수
-
-    const handleClick = (event, test) => {
-        if (test && test.no) {
-            const updatedFavorite = Number((board.filter(x => x.no === test.no))[0].favorite) + 1;
-            event.preventDefault();
-            // fetch(`http://localhost:5030/board/${test.no}`, {
-            fetch(`/board/list/${test.no}`, {
-                method: 'PATCH',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    favorite: updatedFavorite
-                })
+    // 댓글 삭제 
+    const onRemove2 = (event, app) => {
+        event.preventDefault();
+        if (confirm("정말 삭제합니까?")) {
+            fetch(`/board/view/${boardNo}/review/delete/${app.no}`, {
+                method: "DELETE"
             })
+                .then(res => {
+                    if (res.ok) {
+                        alert("삭제되었습니다.");
+                        location.href = '/board'; // 브라우저 캐시를 비우기 위해 페이지를 다시 로드하세요.
+                    } else {
+                        throw new Error(`${res.status} (${res.statusText})`);
+                    }
+                })
+                .catch(error => console.error(`실행 중 오류가 발생했습니다: ${error}`));
         } else {
-            console.log('X or X.no is undefined or null');
+            alert("취소되었습니다.");
         }
     };
+
+    //좋아요수 증가 함수
+
+    // 임시 봉인 (likes 가 배열인 이유 확인)
+    // const handleClick = (event, test) => {
+    //     if (test && test.no) {
+    //         const updatedFavorite = Number((Data.filter(x => x.no === test.no))[0].likes) + 1;
+    //         event.preventDefault();
+    //         fetch(`/board/list/like/${test.no}`, {
+    //             method: 'PATCH',
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({
+    //                 favorite: updatedFavorite
+    //             })
+    //         })
+    //     } else {
+    //         console.log('X or X.no is undefined or null');
+    //     }
+    // };
 
     //댓글 입력
     const reRef = useRef(null);
@@ -73,7 +91,7 @@ const boardIn = () => {
     function onSubmit(e) {
         e.preventDefault();
         if (confirm("댓글을 입력 하시겠습니까?")) {
-            fetch(`/board/view/${boardNo}/reviwe/wirte`, {
+            fetch(`/board/view/${boardNo}/review/write`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -103,17 +121,18 @@ const boardIn = () => {
     return (
         <div>
             <>
+            {/* 상단 정보창 */}
                 <div>
                     <table>
                         <tr>
-                            <td>1.{Data2.category}</td>
-                            <td>2.{Data2.title}</td>
+                            <td>①{Data.category}</td>
+                            <td>②{Data.title}</td>
                         </tr>
                         <tr>
-                            <td>3.{Data2.member}</td>
-                            <td>4.{Data2.createdDate} 5. {Data2.hit} 6.</td>
+                            <td>③{Data.member}</td>
+                            <td>④{Data.createdDate} ⑤ {Data.hit} ⑥ {Data.likes}</td>
                             <td style={{ width: "10%" }}>
-                                <button><Link to={`/boardRe/${Data2.no}`}>수정</Link></button>
+                                <button><Link to={`/boardRe/${Data.no}`}>수정</Link></button>
                                 <button onClick={onRemove}>삭제</button>
                             </td>
                         </tr>
@@ -127,17 +146,15 @@ const boardIn = () => {
                 </div>
                 {/* 콘텐츠창 */}
                 <div style={{ minHeight: "800px" }}>
-                    <pre>{Data2.contents}</pre><br />
-                    <pre>{Data2.contents}</pre><br />
-                    <pre>{Data2.contents}</pre><br />
-                    <pre>{Data2.contents}</pre><br />
+                    {/* {Data.contents} */}
+                    <p dangerouslySetInnerHTML={{ __html: Data.contents }}></p>
                 </div>
                 {/* 좋아요 버튼 */}
                 <div style={{ textAlign: "center" }}>
                     <button
                         type='button'
                         style={{ height: '100px', width: '100px', borderRadius: '50px' }}
-                        onClick={(e) => handleClick(e, test)}
+                        // onClick={(e) => handleClick(e, Data)}
                     >
                         좋아요
                     </button>
@@ -156,28 +173,32 @@ const boardIn = () => {
                     </div>
                     {/* 댓글창 view */}
                     <table className='border text-center' style={{ margin: "auto" }}>
-                        {/* {Data2.reviews.map(app => { 
-                            return (
+                        {Data && Data.reviews &&
+                            <tbody>
+                                {Data.reviews.map(app => {
+                                    return (
+                                        <tr>
+                                            <td>{app.member}</td>
+                                            <td>{app.contents}</td>
+                                            <td>{app.createdDate}</td>
+                                            <td style={{ width: "10%" }}>
+                                                <Link to={`/boardRe/${boardNo}`}><button>수정</button></Link>
+                                                <button onClick={(e)=>onRemove2(e,app)}>삭제</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
                                 <tr>
-                                    <td>{app.member}</td>
-                                    <td>{app.contents}</td>
-                                    <td>{app.createdDate}</td>
+                                    <td> 1</td>
+                                    <td>semple01</td>
+                                    <td>2023-03-08</td>
                                     <td style={{ width: "10%" }}>
                                         <button><Link to={`/boardRe/${boardNo}`}>수정</Link></button>
-                                        <button onClick={onRemove2}>삭제</button>
+                                        {/* <button onClick={onRemove2}>삭제</button> */}
                                     </td>
                                 </tr>
-                            )
-                        })} */}
-                        <tr>
-                            <td> 1</td>
-                            <td>semple01</td>
-                            <td>2023-03-08</td>
-                            <td style={{ width: "10%" }}>
-                                <button><Link to={`/boardRe/${boardNo}`}>수정</Link></button>
-                                {/* <button onClick={onRemove2}>삭제</button> */}
-                            </td>
-                        </tr>
+                            </tbody>
+                        }
                     </table>
                 </div>
             </>

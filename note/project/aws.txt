@@ -1,0 +1,4 @@
+사용자 이름	암호	콘솔 로그인 URL
+admin	aaaa1111!	https://594609426018.signin.aws.amazon.com/console
+		
+		

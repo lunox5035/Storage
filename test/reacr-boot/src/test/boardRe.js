@@ -12,7 +12,7 @@ import useFetch from './useFetch';
 function boardRe() {
     // 데이터 연결
     // let Data1 = useFetch("http://localhost:5030/board")
-    let Data1 = useFetch("http://192.168.0.4:8080/board/list")
+    let Data1 = useFetch("/board/list")
 
     let [board, setBoard] = useState([])
     useEffect(() => { setBoard([...Data1]); }, [Data1])
@@ -54,29 +54,30 @@ function boardRe() {
     function onSubmit(e) {
 
         e.preventDefault();
-        
+
         if (confirm("저장 하시겠습니까?")) {
             // fetch(`http://localhost:5030/board/${testno}`, {
-            fetch(`http://192.168.0.4:8080/board/list/${testno}`, {
-                    method: "PATCH",
+            fetch(`/board/update/${testno}`, {
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     category: caRef.current.value,
                     title: tiRef.current.value,
-                    contents: contentsData
+                    contents: contentsData,
+                    files: []
                 }),
             })
-            .then(res => {
-                if (res.ok) {
-                    alert("수정 완료되었습니다.");
-                    location.href = '/board'; // 브라우저 캐시를 비우기 위해 페이지를 다시 로드하세요.
-                } else {
-                    throw new Error(`${res.status} (${res.statusText})`);
-                }
-            })
-            .catch(error => console.error(`수정 중 오류가 발생했습니다: ${error}`));
+                .then(res => {
+                    if (res.ok) {
+                        alert("수정 완료되었습니다.");
+                        location.href = '/board'; // 브라우저 캐시를 비우기 위해 페이지를 다시 로드하세요.
+                    } else {
+                        throw new Error(`${res.status} (${res.statusText})`);
+                    }
+                })
+                .catch(error => console.error(`수정 중 오류가 발생했습니다: ${error}`));
 
             // axios.patch('http://localhost:5030/board?no=1', {
             //     category: caRef.current.value,
@@ -151,7 +152,7 @@ function boardRe() {
                     </>
                 ))}
             </div>
-            
+
         </>
     )
 }

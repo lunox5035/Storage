@@ -11,7 +11,8 @@ import useFetch from './useFetch'
 
 function board(props) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    let Data1 = useFetch("/board/list")
+    const Data1 = useFetch("/board/list")
+    // const Data1 = props.board;
 
     //페이징 데이터
     const [data, setData] = useState([]); // 전체 / 데이터 원본 데이터 화

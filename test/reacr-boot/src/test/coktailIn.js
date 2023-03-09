@@ -1,16 +1,17 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import { Card, Carousel, Col, Image, Row } from 'react-bootstrap'
 import useFetch from './useFetch'
 import bgi from './db/하트.png'
 
 function coktailIn() {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const Data1 = useFetch("http://localhost:3030/cocktail")
+    // const Data1 = useFetch("http://localhost:3030/cocktail")
+    const Data1 = useFetch("cocktail/list")
     // const Data1 = useFetch("http://192.168.0.4:8080/cocktail")
     const cocktail = Data1.filter(x => x.no === 2) /* no, id 받아오기 */
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const ingredient = useFetch("http://localhost:4030/ingredient")
+    // const ingredient = useFetch("http://localhost:4030/ingredient")
+    const ingredient = useFetch("/ingredient/list")
 
 
     return (

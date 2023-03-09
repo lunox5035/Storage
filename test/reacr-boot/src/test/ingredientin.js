@@ -9,7 +9,7 @@ import useFetch from './useFetch'
 function ingredientin() {
 
     // const ingredient = useFetch("http://localhost:4030/ingredient")
-    const ingredient = useFetch("http://192.168.0.4:8080/ingredient")
+    const ingredient = useFetch("/ingredient/list")
     const ingredientNo = useParams();
 
     const Fdata = ingredient.filter(x => x.no == ingredientNo.no)
@@ -28,38 +28,34 @@ function ingredientin() {
 
             <div className='mt-1'>
                 <Row style={{ margin: '0 10%' }}>
-                    {Fdata.length != 0 ? (
-                        Fdata.map(test => {
-                            return (
+                    {Fdata.map(test => {
+                        return (
+                            test.length == 0 ? (
+                                <div>
+                                    <Link to={'/ingredient'}>
+                                        <p>준비중입니다</p>
+                                    </Link>
+                                </div>
+                            ) : (
                                 test.cocktailRecipes.map(test2 => {
                                     return (
-                                        test2.cocktail.map(test3 => {
-                                            return (
-                                                <Col xs={2} className='text-center' style={{ height: "150px", boxShadow: "2px 2px 2px 2px gray " }}>
-                                                    <Link to={`/cocktail/${test3.no}`}>
-                                                        <center>
-                                                            <img
-                                                                className="d-block "
-                                                                style={{ width: "90px", height: "90px", borderRadius: "70%", overflow: "hidden" }}
-                                                                src={test3.cocktailImages[0].url}
-                                                                alt="Third slide" />
-                                                        </center>
-                                                        <p>{test3.name}</p>
-                                                    </Link>
-                                                </Col>
-                                            )
-                                        })
+                                        <Col xs={2} className='text-center' style={{ height: "150px", boxShadow: "2px 2px 2px 2px gray " }}>
+                                            <Link to={`/cocktail/${test2.cocktail.no}`}>
+                                                <center>
+                                                    <img
+                                                        className="d-block "
+                                                        style={{ width: "90px", height: "90px", borderRadius: "70%", overflow: "hidden" }}
+                                                        src={test2.cocktail.cocktailImages[0].url}
+                                                        alt="Third slide" />
+                                                </center>
+                                                <p>{test2.cocktail.name}</p>
+                                            </Link>
+                                        </Col>
                                     )
-                                })
+                                })  
                             )
-                        })
-                    ) : (
-                        <div>
-                            <Link to={'/ingredient'}>
-                                <p>준비중입니다</p>
-                            </Link>
-                        </div>
-                    )}
+                        )
+                    })}
                 </Row>
             </div>
         </>
