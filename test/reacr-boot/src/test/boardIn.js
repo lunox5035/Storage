@@ -8,15 +8,6 @@ import useFetch from './useFetch'
 const boardIn = () => {
     // 데이터 연결
     const boardNo = Number(useParams().no);
-    // const [Data, setData] = useState([]);
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         const response = await fetch(`/board/view/${boardNo}`)
-    //         const data = await response.json();
-    //         setData([data])
-    //     }
-    //     fetchData()
-    // }, [boardNo])
     const Data = useFetch(`/board/view/${boardNo}`)
 
     console.log(Data)
@@ -117,11 +108,16 @@ const boardIn = () => {
             alert("취소되었습니다.");
         }
     }
-
+    //날짜 변환
+    function formatDate(dateString) {
+        const date = new Date(Date.parse(dateString))
+        const formattedDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+        return formattedDate;
+    }
     return (
         <div>
             <>
-            {/* 상단 정보창 */}
+                {/* 상단 정보창 */}
                 <div>
                     <table>
                         <tr>
@@ -130,7 +126,7 @@ const boardIn = () => {
                         </tr>
                         <tr>
                             <td>③{Data.member}</td>
-                            <td>④{Data.createdDate} ⑤ {Data.hit} ⑥ {Data.likes}</td>
+                            <td>④{formatDate(Data.createdDate)}⑤ {Data.hit} ⑥ {Data.likes}</td>
                             <td style={{ width: "10%" }}>
                                 <button><Link to={`/boardRe/${Data.no}`}>수정</Link></button>
                                 <button onClick={onRemove}>삭제</button>
@@ -154,7 +150,7 @@ const boardIn = () => {
                     <button
                         type='button'
                         style={{ height: '100px', width: '100px', borderRadius: '50px' }}
-                        // onClick={(e) => handleClick(e, Data)}
+                    // onClick={(e) => handleClick(e, Data)}
                     >
                         좋아요
                     </button>
@@ -180,10 +176,10 @@ const boardIn = () => {
                                         <tr>
                                             <td>{app.member}</td>
                                             <td>{app.contents}</td>
-                                            <td>{app.createdDate}</td>
+                                            <td>{formatDate(app.createdDate)}</td>
                                             <td style={{ width: "10%" }}>
                                                 <Link to={`/boardRe/${boardNo}`}><button>수정</button></Link>
-                                                <button onClick={(e)=>onRemove2(e,app)}>삭제</button>
+                                                <button onClick={(e) => onRemove2(e, app)}>삭제</button>
                                             </td>
                                         </tr>
                                     )

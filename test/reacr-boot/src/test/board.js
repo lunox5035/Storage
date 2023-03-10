@@ -97,8 +97,31 @@ function board(props) {
         window.location.href = `/boardIn/${test.no}`;
     };
 
+    // test
+    const buttonClick = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    const [yPosition, setYPosition] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setYPosition(window.scrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
+
         <>
+
+            <button onClick={buttonClick} style={{ position: 'fixed', right: '10px', bottom: `${yPosition + 10}px` }}>⬆️</button>
+
+
             <div className='border ' style={{ margin: "auto", height: "500px", width: "1400px" }}>
                 <h2 className='text-center'> 오늘의 Best 게시글</h2>
 
