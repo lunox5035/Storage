@@ -31,7 +31,7 @@ function App() {
         <Route path='/ingredient' element={<Ingredient />} />
         <Route path='/ingredient/:no' element={<IngredientIn />} />
         <Route path='/coktailIn/:no' element={<CoktailIn />} />
-        <Route path='/writing' element={<Writing />} />
+        <Route path='/board/writing' element={<Writing />} />
       </Routes>
       
     </>
