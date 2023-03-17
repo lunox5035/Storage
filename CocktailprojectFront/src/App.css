@@ -13,6 +13,16 @@ img {
   object-fit: cover;
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 1;
+}
+
 /* ---------------- header ------------------ */
 
 .header-container {
@@ -20,7 +30,7 @@ img {
   padding-right: 15%;
   margin-top: 40px;
   display: grid;
-  grid-template-columns: 70px 45px 70px 90px 70px 1fr;
+  grid-template-columns: 70px 45px 70px 90px 90px 1fr;
   grid-template-rows: 1.5fr 1fr;
   column-gap: 30px;
   row-gap: 5px;
@@ -31,14 +41,20 @@ img {
   padding: 5px 20px;
   font-size: 20px;
   color: gray;
-  border: 1px solid black;
-  border-radius: 5px;
-  font-weight: '800';
+  border: 1px solid rgb(223, 217, 217);
+  border-radius: 10px;
+  font-weight: 500;
   background-color: white;
   position: relative;
   top: 12px;
   float: right;
   cursor: pointer;
+  transition: all 0.3s;
+}
+
+.login-btn:hover {
+  border: 1px solid rgb(216, 167, 7);
+  color: rgb(216, 167, 7);
 }
 
 .header-menu {
@@ -58,7 +74,7 @@ img {
   height: 3px;
   margin-top: 5px;
   border-radius: 100px;
-  background-color: rgb(242, 92, 92);
+  background-color: rgb(216, 167, 7);
   transition: all 0.3s;
 }
 
@@ -80,10 +96,147 @@ img {
   clear: both;
 }
 
+.modal-container {
+  display: grid;
+  grid-template-rows: 1fr 1fr 40px;
+  position: absolute;
+  top: 12%;
+  right: 15%;
+  width: 300px;
+  height: 150px;
+  background-color: white;
+  box-shadow: rgb(0 0 0 / 20%) 3px 8px 20px;
+  z-index: 2;
+  padding: 20px;
+  border-radius: 10px;
+  float: right;
+}
+
+.header-menu-box.selected li {
+  color: rgb(216, 167, 7);
+}
+
+.modal-container div {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-container-contents {
+  font-size: 20px;
+  transition: all 0.3s;
+}
+
+.modal-container-contents:hover {
+  color: rgb(216, 167, 7);
+}
+
+.modal-contents-logout {
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: center;
+  padding-top: 5px;
+  background-color: rgb(216, 167, 7);
+  color: white;
+  transition: all 0.5s;
+}
+
+.modal-contents-logout:hover {
+  background-color: rgb(242, 92, 92);
+}
+
 /* --------------- main -------------------- */
 
 .banner {
   width: 99.9%;
   height: 530px;
   background-color: aliceblue;
+}
+
+/* --------------- mypage -------------------- */
+
+.mypage-container {
+  margin: 5% 10%;
+  column-gap: 30px;
+  border-radius: 10px;
+}
+
+.mypage-left {
+  float: left;
+  display: grid;
+  width: 252px;
+  grid-template-rows: 150px 280px 1fr 1fr 1fr;
+  background-color: rgba(224, 218, 201);
+  box-shadow: rgb(0 0 0 / 20%) 3px 8px 20px;
+  border-radius: 10px;
+  position: fixed;
+}
+
+.mypage-profile-picture {
+  width: 130px;
+  height: 130px;
+  padding: 40px;
+  border: 1px solid black;
+  border-radius: 150px;
+  margin-top: 2%;
+  margin-left: 8%;
+}
+
+.mypage-left-menu {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  padding-top: 15%;
+  padding-bottom: 15%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mypage-left-menu:hover {
+  color: white;
+  box-shadow: rgb(0 0 0 / 20%) 3px 8px 20px;
+  background-color: rgb(121, 105, 17);
+  border-radius: 50px;
+}
+
+.mypage-left-menu.selected span {
+  color: rgb(216, 167, 7);
+}
+
+.mypage-right {
+  float: right;
+  width: 80%;
+  background-color: rgba(224, 218, 201);
+  box-shadow: rgb(0 0 0 / 20%) 3px 8px 20px;
+  border-radius: 10px;
+}
+
+.mypage-right:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+
+.mypage-right-contents {
+  display: grid;
+  grid-template-columns: 0.3fr 1fr 1fr 0.3fr;
+  grid-template-rows: 1fr 1fr 1fr 150px;
+}
+
+.mypage-right-contents-keys h2 {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.mypage-right-contents-keys {
+  border-bottom: 1px solid gray;
+}
+
+.mypage-right-contents-values {
+  font-size: 20px;
+  padding-top: 20px;
+  padding-left: 20%;
+  font-weight: 500;
+  border-bottom: 1px solid gray;
+  border-left: 1px solid gray;
 }

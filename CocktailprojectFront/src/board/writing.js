@@ -3,16 +3,17 @@
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { ckfinderUploadAdapterPlugin } from './ck-finder-adapter';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 // import useFetch from './useFetch';
 
 function writing(props) {
     // let Data1 = useFetch("http://localhost:5030/board")
-    // const Data1 = props.board;
+    const Data1 = props.board;
+    const token = props.token;
 
+    const noData = Math.max.apply(null, Data1.map(function (v) { return v.no })) + 1;
     const caRef = useRef(null);
     const tiRef = useRef(null);
     // const hitRef = useRef(null);
@@ -21,29 +22,13 @@ function writing(props) {
     // const unRef = useRef(null);
     //CK에디터 데이터 받아오기
     const [contentsData, setContentsData] = useState("");
-    const [editorContent, setEditorContent] = useState('');
 
     const handleEditorChange = (event, editor) => {
         const data = editor.getData();
         console.log(data)
         setContentsData(data);
-        setEditorContent(data);
+    };
 
-    };
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // 여기에 포스트 요청을 보내세요
-        fetch('http://your-api-url.com/upload-image', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ content: editorContent })
-        })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
-    };
     function onSubmit(e) {
         e.preventDefault();
         if (confirm("저장 하시겠습니까?")) {
@@ -51,15 +36,12 @@ function writing(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    category: caRef.current.value,
-                    title: tiRef.current.value,
-                    contents: contentsData,
-                    hit: 0,
-                    reg_date: '2023-02-17',
-                    favorite: 0,
-                    user_no: 1,
+                    "category": caRef.current.value,
+                    "title": tiRef.current.value,
+                    "contents": contentsData,
                 }),
             })
                 .then(res => {
@@ -75,7 +57,6 @@ function writing(props) {
             alert("취소되었습니다.");
         }
     }
-  
     return (
         <>
             <h1>글쓰기</h1>
@@ -92,10 +73,10 @@ function writing(props) {
                                 <select
                                     id="sorting"
                                     style={{ width: "100%", height: "100%" }}
-                                    defaultChecked="random"
+                                    defaultValue="random" ref={caRef}
                                 >
-                                    <option value="random" ref={caRef}>자유</option>
-                                    <option value="question" ref={caRef}>Q&A</option>
+                                    <option value="random">자유</option>
+                                    <option value="question">Q&A</option>
                                 </select>
                             </Col>
                             <Col xs={10}>
@@ -105,37 +86,29 @@ function writing(props) {
                         {/* <div key={i}>변화 확인용: {RadioButton}</div> */}
                         <br />
                         <label>내용</label>
-                        <form onSubmit={handleFormSubmit}>
-                            <CKEditor
-                                editor={ClassicEditor}
-                                onChange={handleEditorChange}
-                                onReady={editor => {
-                                    // You can store the "editor" and use when it is needed.
-                                    console.log('Editor is ready to use!', editor);
-                                    // 이곳에서 편집기의 인스턴스에 플러그인을 등록합니다.
-                                    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-                                        // Configure the URL to the upload script in your back-end here!
-                                        return new ckfinderUploadAdapterPlugin(loader, '/api/upload'); // you need to specify your uploading endpoint here
-                                    };
-                                    console.log('Editor is ready to use!', editor);
-                                }}
-                                // onChange={(event, editor) => {
-                                //     const data = editor.getData();
-                                //     console.log({ event, editor, data });
-                                // }}
-                                onBlur={(event, editor) => {
-                                    console.log('Blur.', editor);
-                                }}
-                                onFocus={(event, editor) => {
-                                    console.log('Focus.', editor);
-                                }}
-                            />
-                        </form>
+                        <CKEditor
+                            editor={ClassicEditor}
+                            onChange={handleEditorChange}
+                            onReady={editor => {
+                                // You can store the "editor" and use when it is needed.
+                                console.log('Editor is ready to use!', editor);
+                            }}
+                            // onChange={(event, editor) => {
+                            //     const data = editor.getData();
+                            //     console.log({ event, editor, data });
+                            // }}
+                            onBlur={(event, editor) => {
+                                console.log('Blur.', editor);
+                            }}
+                            onFocus={(event, editor) => {
+                                console.log('Focus.', editor);
+                            }}
+                        />
                     </div>
                     <div style={{ textAlign: "center" }}>
                         <form onSubmit={onSubmit}>
                             <Link to='/board'><button>목록 </button></Link>
-                            <button type="submit">추가</button>
+                            <button >추가</button>
                         </form>
                     </div>
                 </>

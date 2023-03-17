@@ -8,13 +8,21 @@
     margin: 20px;
     padding: 5px 20px;
     font-size: 20px;
-    background-color: aliceblue;
+    font-weight: 500;
     color: gray;
     border: 0px;
     border-radius: 10px;
     box-shadow: 2px 2px 5;
+    background-color: white;
+    border: 1px solid rgb(223, 217, 217);
     cursor: pointer;
+    transition: all 0.3s;
 }
+
+.cocktail-btn:hover {
+    border: 1px solid rgb(216, 167, 7);
+    color: rgb(216, 167, 7);
+  }
 
 .cocktail-box {
     width: 280px;
@@ -117,10 +125,17 @@
 
 .cocktail-banner-box-contents-favorite {
     text-align: center;
-    font-size: 40px;
+    font-size: 60px;
     color: rgb(242, 92, 92);
-    margin-top: 7px;
+    margin-top: -10px;
     margin-bottom: -8px;
+}
+
+.cocktail-ingredient-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 400px;
+    padding: 0% 20%;
+    margin-bottom: 40px;
 }
 
 .cocktail-ingredient-recipe-box {
@@ -155,6 +170,15 @@
     text-align: center;
     padding-top: 20%;
     font-size: 20px;
+}
+
+.cocktail-ingredient-contents-name {
+    color: black;
+    transition: all 0.4s;
+}
+
+.cocktail-ingredient-container:hover .cocktail-ingredient-contents-name {
+    color: rgb(216, 167, 7);
 }
 
 

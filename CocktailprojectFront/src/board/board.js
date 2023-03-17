@@ -4,13 +4,11 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-undef */
-import React, { useEffect, useRef, useState } from 'react';
-import { tr, Container, td } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Board(props) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    // const Data1 = useFetch("/board/list")
     const Data1 = props.board;
 
     //페이징 데이터
@@ -39,14 +37,14 @@ function Board(props) {
         });
     };
 
-    const [sorting, setSorting] = useState("asc");
+    const [sorting, setSorting] = useState("desc");
     const onSorted = (e) => {
         const sortByValue = e.target.value;
         setSorting(sortByValue);
         if (sortByValue === 'asc') {
-            sortJSON(board, "title", "asc")
+            sortJSON(board, "createdDate", "asc")
         } else if (sortByValue === 'desc') {
-            sortJSON(board, "title", "desc")
+            sortJSON(board, "createdDate", "desc")
         }
     };
 
@@ -54,7 +52,6 @@ function Board(props) {
     sortJSON(topFavoriteData, "favorite", "desc")
 
     //페이징 소스코드
-
     useEffect(() => {
         setData([...Data1])
         setBoard([...Data1]);
@@ -75,31 +72,11 @@ function Board(props) {
         setItemsPerPage(e.target.value)
     }
 
-    // 방문자수 증가 함수
-    // const handleClick = (event, test) => {
-    //     if (test && test.no) {
-    //         const updatedHit = Number((board.filter(x => x.no === test.no))[0].hit) + 1;
-    //         event.preventDefault();
-    //         // fetch(`http://localhost:5030/board/${test.no}`, {
-    //         fetch(`/board/list/${test.no}`, {
-    //             method: 'PATCH',
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify({
-    //                 hit: updatedHit
-    //             })
-    //         })
-    //     } else {
-    //         console.log('X or X.no is undefined or null');
-    //     };
-    //     window.location.href = `/board/${test.no}`;
-    // };
 
 
     return (
         <>
-            <div className='border ' style={{ margin: "auto", height: "500px", width: "1400px", backgroundColor:'aliceblue' }}>
+            <div className='border ' style={{ margin: "auto", height: "500px", width: "1400px", backgroundColor: 'aliceblue' }}>
                 <h2 className='text-center'> 오늘의 Best 게시글</h2>
 
                 <div style={{ marginLeft: '40%' }}>
@@ -108,114 +85,106 @@ function Board(props) {
                             <td style={{ margin: "0 auto", width: "Auto" }}>  {/* 변경한 줄 */}
                                 <tr>방문 수</tr>
                                 {/* 반복 i 값 변경시 출력수 변경가능 */}
-                                <Container>
+                                <div>
                                     {topHitData.map((test, i) => {
                                         if (i < 5) {
                                             return (
                                                 <tr className='text-start '>
-                                                    {i + 1}. <Link to={`/board/${test.no}`}>{test.title}</Link>
+                                                    {i + 1}. <Link to={`/board/view/${test.no}`}>{test.title}</Link>
                                                 </tr>
                                             )
                                         }
                                     })}
 
-                                </Container>
+                                </div>
                             </td>
                             <td style={{ margin: "0 auto", width: "Auto" }}>  {/* 변경한 줄 */}
                                 <tr>좋아요 수</tr>
-                                <Container>
+                                <div>
                                     {topFavoriteData.map((test, i) => {
                                         if (i < 5) {
                                             return (
                                                 <tr className='text-start'>
-                                                    <Link to={`/board/${test.no}`}>{i + 1}. {test.title}</Link>
+                                                    <Link to={`/board/view/${test.no}`}>{i + 1}. {test.title}</Link>
                                                 </tr>
                                             )
                                         }
                                     })}
-                                </Container>
+                                </div>
                             </td>
                         </h3>
                     </table>
                 </div>
             </div>
 
-            <div className='d-flex justify-content-center mt-1'> {/* 필터 버튼 */}
-                {/* <button onClick={() => {
-                    const sortedData = sortJSON(board, "no", "asc");
-                    setData(Data1);
-                }}>
-                    초기화
-                </button> */}
-                <button onClick={() => setBoard(Data1)} className='DefaultButton mx-3'>전체</button>
-                <button onClick={() => setBoard(Data1.filter(x => x.category === 'random'))} className=' mx-3'>자유</button>
-                <button onClick={() => setBoard(Data1.filter(x => x.category === 'question'))} className=' mx-3'>Q&A</button>
-                {/*  */}
-                <select onChange={onSorted} id="sorting" value={board.title}>   {/* value : title을 기준으로 변경 */}
-                    <option value="asc" > 오름차순 </option>
-                    <option value="desc" > 내림차순 </option>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <button className='cocktail-btn' onClick={() => setBoard(data)}>전체</button>
+                <button className='cocktail-btn' onClick={() => setBoard(data.filter(x => x.category === 'random'))}>자유</button>
+                <button className='cocktail-btn' onClick={() => setBoard(data.filter(x => x.category === 'question'))}>Q&A</button>
+                <select style={{ width: "100px", height: "40px", fontSize: '20px', textAlign: "center" }}
+                    onChange={onSorted} id="sorting" value={currentData.createdDate}> {/* value : title을 기준으로 변경 */}
+                    <option value="desc" > 최신순 </option>
+                    <option value="asc" > 오래된순 </option>
                 </select>
+                <button className='cocktail-btn' onClick={() => setBoard(Data1)}>초기화</button>
+            </div>
 
-                <select id="paging" onChange={handleItemsPerPageChange} value={itemsPerPage} defaultValue={10}>
+            <div style={{ display: "flex", justifyContent: "right", alignItems: "right", margin: "0 20px 0 0" }}>
+                <text>표시글: </text>
+                <select
+                    style={{ width: "100px", height: "40px", fontSize: '20px', textAlign: "center", marginLeft: "5px" }}
+                    id="paging" onChange={handleItemsPerPageChange} value={itemsPerPage} defaultValue={10}>
                     <option value="5" > 5 </option>
                     <option value="10" > 10 </option>
                     <option value="15" > 15 </option>
                     <option value="20" > 20 </option>
                 </select>
+                <button className='cocktail-btn'><a href='/writing'>추가</a></button>
             </div>
-
-            <div className='d-flex justify-content-end'>
-                <button><a href='/writing'>추가</a></button>
-            </div>
-
-
 
             {/* 내용  그리드 */}
             <>
                 {/* 페이지별 데이터 출력 */}
-                <div className='m-5' >
-                    <td >
-                        <tr xs={1} />
-                        <tr xs={10} >
-                            {currentData.map((test, i) => {
-                                // if (i < { countNo }) {
-                                return (
-                                    <div style={{border:"solid 1px",margin:"10px"}}>
-                                        <h3 className='text-center' key={i}>
-                                            <div className="d-flex align-items-center" style={{ float: "left", height: "67px" }}>
-                                                <p>{test.no}</p>
-                                            </div>
-                                            <div className='border' >
-                                                <div>
-                                                    <Link 
-                                                    // onClick={(e) => handleClick(e, test)}
-                                                    >
-
-                                                        <td className='mt-3 xxl'>
-
-                                                            <tr> {test.category}</tr>
-                                                            <tr className='text-start'> {test.title}</tr>
-                                                        </td>
-                                                        <td className='xxl'>
-                                                            <tr> {test.member}</tr>
-                                                            <tr> {test.createdDate}</tr>
-                                                            <tr> H:{test.hit}</tr>
-                                                            <tr> F:{test.likes}</tr>
-                                                        </td>
-                                                    </Link>
-                                                </div>
-                                                <div >
-                                                    <button><Link to={`/board/update/${test.no}`}>수정</Link></button>
-                                                </div>
-                                            </div>
-                                        </h3>
+                <div style={{ margin: "10px" }} >
+                    {currentData.map((test, mappingIndex) => {
+                        return (
+                            <div style={{ border: "solid 1px", margin: "10px", display: "flex", alignItems: "center" }}>
+                                <div>
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <div >
+                                            {sorting === 'asc'
+                                                ?
+                                                <span key={mappingIndex}>{currentData.length - mappingIndex}</span>
+                                                :
+                                                <span key={mappingIndex}>{mappingIndex + 1}</span>
+                                            }
+                                        </div>
+                                        <div >
+                                            <Link to={`/board/view/${test.no}`}>
+                                                <table>
+                                                    <tr>
+                                                        <td> <p>category:{test.category}</p></td>
+                                                        <td><p style={{ marginLeft: "50px" }}> title:{test.title}</p></td>
+                                                    </tr>
+                                                    <br />
+                                                    <tr>
+                                                        <td> nickname:{test.member.nickname}</td>
+                                                        <td> Date:{test.createdDate}</td>
+                                                        <td> Hit:{test.hit}</td>
+                                                        <td> F:{test.likes}</td>
+                                                    </tr>
+                                                </table>
+                                            </Link>
+                                        </div>
                                     </div>
-                                )
-                                // }
-                            })}
-                        </tr>
-                        <tr xs={1} />
-                    </td>
+                                </div>
+                                <div>
+                                    <button><Link to={`/board/update/${test.no}`}>수정</Link></button>
+                                </div>
+                            </div>
+                        )
+                    })}
+
                 </div >
 
 
