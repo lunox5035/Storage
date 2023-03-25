@@ -1,21 +1,14 @@
 import axios from "axios";
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { useEffect, useState } from "react";
 import { MapMarker, Map, CustomOverlayMap, ZoomControl } from "react-kakao-maps-sdk";
 import '../css/map.css';
 import parse from 'html-react-parser';
-import {throttle} from 'lodash'
+import { useParams } from "react-router-dom";
 const { kakao } = window;
 
-// 현재위치 마커 이미지 조정
-// const redMarkerImage = new kakao.maps.MarkerImage(
-//     "https://ssl.pstatic.net/static/maps/m/pin_rd.png",
-//     new kakao.maps.Size(20, 20),
-//     {
-//         offset: new kakao.maps.Point(10, 10),
-//     }
-// );
-function KakaoMap() {
+function KakaoMap(props) {
+
     // 위치데이터 가져오기
     const [Data, setData] = useState([]);
 
@@ -23,7 +16,7 @@ function KakaoMap() {
 
     useEffect(() => {
         axios
-            .get(`/place/list`)
+            .get(`${process.env.REACT_APP_ENDPOINT}/place/list`)
             .then((res) => {
                 const data0 = res.data;
                 console.log("#########: ", data0);
@@ -33,31 +26,7 @@ function KakaoMap() {
             .catch((error) =>
                 console.error("error" + error))
     }, []);
-    // useEffect(() => {
-    //     const container = document.getElementById("map");
-    // 위치정보 가져오기
-    // navigator.geolocation.getCurrentPosition(
-    //     (position) => {
-    //         const { latitude, longitude } = position.coords;
-    //         const currentPosition = new kakao.maps.LatLng(latitude, longitude);
-    //         // 지도 중심 위치 
-    //         const options = {
-    //             // 높은 정확도 요청, 배터리 수명에 영향줄 수 있으므로 사용 시 유의!!
-    //             // enableHighAccuracy: true,
-    //             center: currentPosition,
-    //             level: 5,
-    //         };
-    //         const map = new kakao.maps.Map(container, options);
-    //         // 현재 위치 마커 표시
-    //         const currentMarker = new kakao.maps.Marker({
-    //             position: currentPosition,
-    //             title: "현재위치",
-    //             map: map,
-    //             image: redMarkerImage,
-    //         });
-    //     }
-    // );
-    // }, []);
+
     const [state, setState] = useState({
         center: {
             lat: 33.450701,
@@ -100,189 +69,84 @@ function KakaoMap() {
         }
     }, [])
 
-    // // 개시판 부분
-    // //scroll 이벤트 관련
-    // const lastScroll = useSelector(state => state.review.current_scroll);
-    // var timer;
-    // const scroll = (e) => {
-    //     if (timer) {
-    //         clearTimeout(timer);
-    //     }
-    //     timer = setTimeout(function () {
-    //         dispatch(reviewActions.saveCurrentScroll(e.target.scrollTop))
-    //     }, 500);
-
-    // }
-
-    // const container = useRef(null);
-    // useEffect(() => {
-    //     container.current.scrollTo(0, lastScroll);
-    // }, [])
-
-    //스크롤 막기
-    var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
-
-    function preventDefault(e) {
-        e.preventDefault();
-    }
-
-    function preventDefaultForScrollKeys(e) {
-        if (keys[e.keyCode]) {
-            preventDefault(e);
-            return false;
-        }
-    }
-
-    // modern Chrome requires { passive: false } when adding event
-    var supportsPassive = false;
-    try {
-        window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
-            get: function () { supportsPassive = true; }
-        }));
-    } catch (e) { }
-
-    var wheelOpt = supportsPassive ? { passive: false } : false;
-    var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-
-    // call this to Disable
-    function disableScroll() {
-        window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
-        window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-        window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
-        window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-    }
-
-    // call this to Enable
-    function enableScroll() {
-        window.removeEventListener('DOMMouseScroll', preventDefault, false);
-        window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-        window.removeEventListener('touchmove', preventDefault, wheelOpt);
-        window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
-    }
+    //뭐였지?
+    const [selectedValue, setSelectedValue] = useState(null);
     useEffect(() => {
-        // modal이 떠 있을 땐 스크롤 막음
-        disableScroll();
+        console.log(selectedValue);
+    }, [selectedValue]);
 
-        // modal 닫히면 다시 스크롤 가능하도록 함
-        return () => enableScroll();
-    }, []);
 
-    //스크롤 상자 생성
-    const [scrollEvent, setScrollEvent] = useState(false)
+    const isLoggedIn = props;
+    const token = props.token;
+    const boardNo = Number(useParams().no);
 
-    const onScrollFn = useMemo(() => throttle(() => {
-        if (window.scrollY > 60) {
-            setScrollEvent(true)
-        } else {
-            setScrollEvent(false)
+    // 좋아요 버튼 (false일때에는 하얀하트, true일때에는 빨간하트)
+    const [isLiked, setIsLiked] = useState(false);
+
+    // 클릭시 하트상태 반전
+    const handleLikeClick = async (e) => {
+        // 로그인 시에만 click이벤트 작동
+        if (isLoggedIn) {
+            await axios.post(`${process.env.REACT_APP_ENDPOINT}/like/${boardNo}`, {}, {/*fetch주소 변경 */
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(() => {
+                // Click이벤트 발생 시, 하트상태 반전을 위한 데이버를 서버에서 불러옴
+                axios.get(`${process.env.REACT_APP_ENDPOINT}/isliked/${boardNo}`, {/*fetch주소 변경 */
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then((res) => {
+                    const liked = res.data; // 서버에서 회원의 좋아요정보 요청 => true or false
+                    setIsLiked(liked); // true or false를 isLiked state에 저장
+                    console.log("좋아요 데이터 가져오기 성공: " + liked);
+                }).catch((err) => {
+                    console.log("좋아요 데이터 가져오기 실패ㅠㅠ");
+                    console.log(err)
+                })
+                // console.log("좋아요 서버전달 성공!");
+            }).catch((err) => {
+                // console.log("좋아요 서버전달 실패!");
+                console.log(err);
+            });
+
         }
-    }, 800), []);
-    useEffect(() => {
-        window.addEventListener('scroll', onScrollFn)
-        return () => {
-            window.removeEventListener('scroll', onScrollFn)
-        }
-    })
-    return (
-        <>
-            <div >
-                <div onScroll={scrollEvent} className="scroll_div" style={{ float: "left", border: "solid 1px", width: '30%', height: "700px", margin: "0 0 0 10%" }} >
+
+        // 렌더링 할때마다, 예전에 좋아요 버튼 클릭했다면 ♥으로 고정, 안했다면 ♡으로 고정... 서버에서 데이터를 불러옴
+        useEffect(() => {
+            axios.get(`${process.env.REACT_APP_ENDPOINT}/isliked/${boardNo}`, {/*fetch주소 변경 */
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then((res) => {
+                const liked = res.data;
+                setIsLiked(liked);
+                console.log("좋아요 데이터 가져오기 성공: " + liked);
+            }).catch((err) => {
+                console.log("좋아요 데이터 가져오기 실패ㅠㅠ");
+                console.log(err)
+            })
+        }, []);
 
 
+        //스크롤 이벤트
 
+        return (
+            <div className="page" style={{ position: 'fixed', width: "100%" }}>
+                <div className="box">
+                    <div className="boxInner"
+                        style={{ float: "left", border: "solid 1px", width: '25%', height: "680px", margin: "0 0 0 10%", overflowY: 'scroll' }} >
+                        {Data.map((value, index) => (
+                            <div key={index} style={{ display: 'grid', gridTemplateColumns: '0.5fr 0.75fr 1fr 0.75fr', alignItems: "center", columnGap: '10px' }}>
+                                <input type="radio" name="example" value={value.name} onChange={(e) => setSelectedValue(selectedValue === e.target.value ? null : e.target.value)}></input>
+                                <img src={value.image} width="73" height="70" alt={value.name} />
+                                <label>{value.name}</label>
+                                <label> 좋아요:{value.likes ? value.likes.length : 0}</label>
+                            </div>
+                        ))}
 
-
-
-
-
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
-                    1<br />
+                    </div>
                 </div>
                 <Map // 지도를 표시할 Container
                     id={`map`}
@@ -298,20 +162,56 @@ function KakaoMap() {
                         margin: "0 0 40% 0",
                         border: "solid 1px"
                     }}
-                    level={3} // 지도의 확대 레벨
+                    level={4} // 지도의 확대 레벨
                 >
                     {/* 마커 등록 */}
-                    {Data.map((value, index) => (
-                        <MapMarker
-                            key={`marker_${index}`}
-                            position={{ lat: value.lat, lng: value.lon }}
-                            onClick={() =>
-                                setIsOpenList(
-                                    isOpenList.map((item, i) => (i === index ? !item : item))
-                                )
-                            }
-                        />
-                    ))}
+                    {Data.map((value, index) => {
+                        if (value.name === selectedValue) {
+                            return (
+                                <MapMarker
+                                    key={`marker_${index}`}
+                                    position={{ lat: value.lat, lng: value.lon }}
+                                    onClick={() => {
+                                        setIsOpenList(
+                                            isOpenList.map((item, i) => (i === index ? !item : item))
+                                        );
+                                    }}
+                                    image={{
+                                        src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
+                                        size: {
+                                            width: 20,
+                                            height: 30,
+                                        }, // 마커이미지의 크기입니다
+                                    }}
+                                />
+                            );
+
+
+                        }
+                        else {
+                            return (
+                                <MapMarker
+                                    key={`marker_${index}`}
+                                    position={{ lat: value.lat, lng: value.lon }}
+                                    onClick={() => {
+                                        setIsOpenList(
+                                            isOpenList.map((item, i) => (i === index ? !item : item))
+                                        );
+                                    }}
+                                    image={{
+                                        src: "http://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_spot.png", // 마커이미지의 주소입니다
+                                        size: {
+                                            width: 20,
+                                            height: 30,
+                                        }, // 마커이미지의 크기입니다
+                                    }}
+                                />
+                            );
+                        }
+
+                    })}
+
+
                     {Data.map((value, index) => (
                         isOpenList[index] && (
                             <CustomOverlayMap key={`overlay_${index}`} position={{ lat: value.lat, lng: value.lon }}>
@@ -332,24 +232,24 @@ function KakaoMap() {
 
                                         {/* 장소 정보 */}
                                         <div className="body">
-                                            <div className="img">
-                                                <img
-                                                    src={value.image}
-                                                    width="73"
-                                                    height="70"
-                                                    alt={value.name}
-                                                />
+                                            {/* 좋아요 */}
+                                            <div className="cocktail-ingredient-image" style={{ width: "5px", height: "5px", marginLeft: '0%', marginTop: '1%', cursor: isLoggedIn ? 'pointer' : 'default' }} onClick={handleLikeClick}>
+                                                <div className="cocktail-banner-box-contents-favorite" style={{ width: "5px", height: "5px" }}>
+                                                    {isLiked ? '♥' : '♡'}
+                                                </div>
                                             </div>
                                             <div className="desc">
                                                 <div className="ellipsis">{parse(value.address)}</div>
                                                 <div className="jibun ellipsis">{value.telephone}</div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </CustomOverlayMap>
                         )
                     ))}
+                    {/* 현재위치 */}
                     {!state.isLoading && (
                         <MapMarker
                             position={state.center}
@@ -361,15 +261,14 @@ function KakaoMap() {
                                 }, // 마커이미지의 크기입니다
                             }}>
                             <div style={{ padding: "5px", color: "#000" }}>
-                                {state.errMsg ? state.errMsg : "여기에 계신가요?!"}
+                                {state.errMsg ? state.errMsg : "현재위치"}
                             </div>
                         </MapMarker>
                     )}
-                    <ZoomControl position={kakao.maps.ControlPosition.TOPRIGHT} />
+                    {/* <ZoomControl position={kakao.maps.ControlPosition.TOPRIGHT} /> */}
                 </Map>
             </div>
-        </>
-    );
-}
+        );
+    }
 
-export default KakaoMap;
+    export default KakaoMap;

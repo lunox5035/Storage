@@ -83,11 +83,21 @@ img {
 }
 
 .header-search {
-  border-radius: 5px;
+  font-weight: bold;
+  font-size: 17px;
+  border: 1px solid black;
+  border-radius: 10px;
   padding: 10px;
-  width: 350px;
+  width: 380px;
   height: 20px;
+  cursor: pointer;
   float: right;
+  transition: all 0.3s;
+}
+
+.header-search:hover {
+  border: 1px solid rgb(216, 167, 7);
+  color: rgb(216, 167, 7);
 }
 
 .header-search::after {
@@ -144,11 +154,38 @@ img {
   background-color: rgb(242, 92, 92);
 }
 
+/* --------------- search -------------------- */
+
+.search-contatiner {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 50px;
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+.search-contents-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  row-gap: 100px;
+  column-gap: 50px;
+  margin-bottom: 75px;
+}
+
+.search-contents-none {
+  grid-column: 1/5;
+  width: 100%;
+  height: 200px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
 /* --------------- main -------------------- */
 
 .banner {
-  width: 99.9%;
-  height: 530px;
+  max-width: 100%;
+  /* height: 730px; */
   background-color: aliceblue;
 }
 
@@ -172,6 +209,7 @@ img {
 }
 
 .mypage-profile-picture {
+  position: relative;
   width: 130px;
   height: 130px;
   padding: 40px;
@@ -179,6 +217,28 @@ img {
   border-radius: 150px;
   margin-top: 2%;
   margin-left: 8%;
+}
+
+.mypage-profile-picture-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mypage-profile-picture-change-button {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.mypage-profile-picture-change-button:hover {
+  color: white;
+  box-shadow: rgb(0 0 0 / 20%) 3px 8px 20px;
+  background-color: rgb(121, 105, 17);
 }
 
 .mypage-left-menu {
@@ -239,4 +299,16 @@ img {
   font-weight: 500;
   border-bottom: 1px solid gray;
   border-left: 1px solid gray;
+}
+
+.cocktail-ingredient-image {
+  width: 100px;
+  height: 100px;
+  background-color: #eee;
+  border-radius: 100px;
+  margin-left: 25%;
+}
+
+.ck-editor__editable:not(.ck-editor__nested-editable) {
+  min-height: 500px;
 }

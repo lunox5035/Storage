@@ -16,11 +16,11 @@ function HeaderModal(props) {
   const handleLogout = () => {
     handleModalClose;
 
-    axios.post('/member/logout', {}, {
+    axios.post(`${process.env.REACT_APP_ENDPOINT}/member/logout`, {}, {
       headers: {
         Authorization: `${token}`
       }
-    }).then(res => {
+    }).then(() => {
       console.log("로그아웃 서버전달 성공!");
     }).catch(() => {
       console.log("로그아웃 서버전달 실패ㅠㅠ");
@@ -161,7 +161,8 @@ function Header(props) {
       <div style={{ gridColumn: '6/7', position: 'relative' }}>
         <img src={search} style={{ position: 'absolute', right: '5px', top: '4.5px', cursor: 'pointer' }}></img>
         <form onSubmit={onSubmit}>
-          <input type="text" className='header-search' value={inputValue} onChange={handleChange} placeholder='만들고 싶은 칵테일 또는 재료를 검색하세요 :)'></input>
+          <input type="text" className='header-search' value={inputValue} spellCheck="false"
+            onChange={handleChange} placeholder='만들고 싶은 칵테일 또는 재료를 검색하세요 :)'></input>
         </form>
       </div>
     </div>

@@ -2,8 +2,9 @@
   "name": "cocktailtest",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {    
-    "http-proxy-middleware": "^2.0.6",
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^36.0.1",
+    "@ckeditor/ckeditor5-react": "^5.1.0",
     "@ckeditor/ckeditor5-upload": "^36.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -15,6 +16,7 @@
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
     "react-id-swiper": "^4.0.0",
+    "react-kakao-maps-sdk": "^1.1.6",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
@@ -28,7 +30,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://192.168.0.46:8080",
   "eslintConfig": {
     "extends": [
       "react-app",

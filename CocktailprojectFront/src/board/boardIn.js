@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-lone-blocks */
@@ -14,19 +15,19 @@ function boardIn(props) {
 
     //데이터 받아오기(조회수 증가)
     const [Data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
+    async function fetchData() {
+        const response = await fetch(`${process.env.REACT_APP_ENDPOINT}/board/view/${boardNo}`);
+        const data = await response.json();
+        return data;
+    }
     useEffect(() => {
-        axios
-            .get(`/board/view/${boardNo}`)
-            .then((res) => {
-                const data0 = res.data;
-                console.log("#########: ", data0);
-                setData(data0);
-            })
-            .catch((error) =>
-                console.error("error" + error))
+        fetchData().then(data => {
+            setData(data);
+            setIsLoading(false);
+        });
     }, []);
-
     console.log(Data)
     console.log(typeof Data)
     console.log(Data.reviews)
@@ -36,7 +37,7 @@ function boardIn(props) {
     const onRemove = (event) => {
         event.preventDefault();
         if (confirm("정말 삭제합니까?")) {
-            fetch(`/board/delete/${boardNo}`, {
+            fetch(`${process.env.REACT_APP_ENDPOINT}/board/delete/${boardNo}`, {
                 method: "DELETE"
             })
                 .then(res => {
@@ -59,7 +60,7 @@ function boardIn(props) {
     function onSubmit(e) {
         e.preventDefault();
         if (confirm("댓글을 입력 하시겠습니까?")) {
-            fetch(`/board/view/${boardNo}/review/write`, {
+            fetch(`${process.env.REACT_APP_ENDPOINT}/board/view/${boardNo}/review/write`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -91,8 +92,8 @@ function boardIn(props) {
     const onRemove2 = (event, app) => {
         event.preventDefault();
         if (confirm("정말 삭제합니까?")) {
-            // fetch(`/board/view/${boardNo}/review/delete/${app.no}`, {
-            fetch(`/board/view/${boardNo}/review/delete/${app.no}`, {
+            // fetch(`${process.env.REACT_APP_ENDPOINT}/board/view/${boardNo}/review/delete/${app.no}`, {
+            fetch(`${process.env.REACT_APP_ENDPOINT}/board/view/${boardNo}/review/delete/${app.no}`, {
                 method: "DELETE"
             })
                 .then(res => {
@@ -128,13 +129,13 @@ function boardIn(props) {
     const handleLikeClick = async (e) => {
         // 로그인 시에만 click이벤트 작동
         if (isLoggedIn) {
-            await axios.post(`/cocktail/like/${boardNo}`, {}, {
+            await axios.post(`${process.env.REACT_APP_ENDPOINT}/cocktail/like/${boardNo}`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             }).then(() => {
                 // Click이벤트 발생 시, 하트상태 반전을 위한 데이버를 서버에서 불러옴
-                axios.get(`/cocktail/isliked/${boardNo}`, {
+                axios.get(`${process.env.REACT_APP_ENDPOINT}/cocktail/isliked/${boardNo}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -153,7 +154,7 @@ function boardIn(props) {
             });
 
             // Click이벤트 발생 시, 실시간으로 숫자를 반영
-            axios.get(`/cocktail/countliked/${boardNo}`)
+            axios.get(`${process.env.REACT_APP_ENDPOINT}/cocktail/countliked/${boardNo}`)
                 .then((res) => {
                     const counted = res.data;
                     setCountLiked(counted);
@@ -170,7 +171,7 @@ function boardIn(props) {
 
     // 렌더링 할때마다, 예전에 좋아요 버튼 클릭했다면 ♥으로 고정, 안했다면 ♡으로 고정... 서버에서 데이터를 불러옴
     useEffect(() => {
-        axios.get(`/cocktail/isliked/${boardNo}`, {
+        axios.get(`${process.env.REACT_APP_ENDPOINT}/cocktail/isliked/${boardNo}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -186,7 +187,7 @@ function boardIn(props) {
 
     // 렌더링 할때마다, 실시간으로 숫자를 반영
     useEffect(() => {
-        axios.get(`/cocktail/countliked/${boardNo}`)
+        axios.get(`${process.env.REACT_APP_ENDPOINT}/cocktail/countliked/${boardNo}`)
             .then((res) => {
                 const counted = res.data;
                 setCountLiked(counted);
@@ -196,55 +197,62 @@ function boardIn(props) {
                 console.log(err)
             })
     }, [countLiked]);
-
     return (
         <>
-            <div>
-                {/* 상단 정보창 */}
-                <div>
-                    <table>
-                        <tr>
-                            <td>①{Data.category}</td>
-                            <td>②{Data.title}</td>
-                        </tr>
-                        <tr>
-                            <td>③{Data?.member?.nickname || ""}</td>
-                            <td>④{formatDate(Data.createdDate)} ⑤ {Data.hit} ⑥ {Data.likes}</td>
-                            <td style={{ width: "10%" }}>
-                                <button><Link to={`/board/updata/${Data.no}`}>수정</Link></button>
-                                <button onClick={onRemove}>삭제</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                {/* 이미지창 */}
-                <div>
-
-                </div>
-                {/* 콘텐츠창 */}
-                <div style={{ minHeight: "800px" }}>
-                    {/* {Data.contents} */}
-                    <div dangerouslySetInnerHTML={{ __html: Data.contents }}></div >
-                </div>
-                {/* 좋아요 버튼 */}
-                {/* <div style={{ textAlign: "center" }}>
-                    <button
-                        type='button'
-                        style={{ height: '100px', width: '100px', borderRadius: '50px' }}
-                    // onClick={(e) => handleClick(e, Data)}
-                    >
-                        좋아요
-                    </button>
-                </div> */}
-                <div className="cocktail-ingredient-image" style={{ marginLeft: '0%', marginTop: '3%', cursor: isLoggedIn ? 'pointer' : 'default' }} onClick={handleLikeClick}>
-                    <div className="cocktail-banner-box-contents-favorite">
-                        {isLiked ? '♥' : '♡'}
+            <div className="board-container">
+                <div className="board-eachcontents-container">
+                    <div style={{ margin: 'auto' }}>
+                        <h3 className="board-eachcontents-category">{Data.category}</h3>
                     </div>
-                    <div className="cocktail-banner-box-contents-favorite" style={{ fontSize: '25px', marginTop: '-15px' }}>{countLiked}</div>
+                    <div style={{ gridColumn: '2/9' }}>
+                        <div>{Data.title}</div>
+                    </div>
+                    <div className="board-eachcontents-profilepicture" style={{ gridRow: '2/5' }}>
+                        {/* <img src=""></img> */}
+                    </div>
+                    <div style={{ gridRow: '3/4' }}>{Data?.member?.nickname || ""}</div>
+                    <div style={{ gridRow: '3/4' }}>{formatDate(Data.createdDate)}</div>
+                    <div style={{ gridColumn: '2/8' }}>&nbsp;</div>
+                    <div style={{ gridRow: '3/4', gridColumn: '4/5' }}>{Data.hit}</div>
+                    <div style={{ gridRow: '3/4', gridColumn: '5/6' }}>{Data.likes}</div>
+                    <button style={{ gridRow: '3/4', gridColumn: '7/8' }}><Link to={`/board/update/${Data.no}`}>수정</Link></button>
+                    <button style={{ gridRow: '3/4', gridColumn: '8/9' }} onClick={onRemove}>삭제</button>
+                </div>
+                <div style={{ border: '1px solid black', marginBottom: '40px', marginTop: '20px' }}></div>
+
+                <div>
+                    {isLoading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <div>
+                            {Data.imgs.map((app, i) => {
+                                if (i < 5) {
+                                return (
+                                    <div style={{ textAlign: "center" }}>
+                                        <img src={`${process.env.REACT_APP_ENDPOINT}${app.path}`} key={i} alt={app.name} style={{ height: "200px", width: "auto" }}></img>
+                                    </div>
+                                )
+                                }
+                            })}
+                        </div>
+                    )}
+                </div>
+
+                <div style={{ fontSize: '20px' }} dangerouslySetInnerHTML={{ __html: Data.contents }}></div>
+
+                <div className="board-eachcontents-button">
+                    <Link to="/board01" style={{ gridColumn: "2/3", margin: 'auto' }}>
+                        <button><Link to={`/board`}>목록</Link></button>
+                    </Link>
+                    <div className="board-eachcontents-favorite" onClick={handleLikeClick}>
+                        <div className="board-eachcontents-favorite-contents">
+                            {isLiked ? '♥' : '♡'}
+                        </div>
+                        <div className="board-eachcontents-favorite-contents" style={{ fontSize: '25px' }}>{countLiked}</div>
+                    </div>
                 </div>
                 {/* 댓글창 */}
-                <div>
+                <div style={{minHeight:"200px"}}>
                     <p className="text-center">
                         <h4>댓글</h4>
                     </p>
